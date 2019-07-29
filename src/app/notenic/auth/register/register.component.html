@@ -1,0 +1,62 @@
+<div class="max-w-6xl m-auto px-5">
+  <h1 class="ui header margin-0">Join Notenic</h1>
+  <div class="ui dividing header">
+    <p class="font-normal text-gray-700">The best way to organize your knowledge base.</p>
+  </div>
+  <div class="md:flex flex-row flex-wrap">
+    <form class="ui form flex-1 md:mr-16" [formGroup]="registerForm">
+      <sui-message *ngIf="error" class="error margin-b-4">
+        <div class="header">
+          Error
+        </div>
+        <p>{{ error }}</p>
+      </sui-message>
+      <div class="flex flex-row">
+        <app-input class="flex-1 mr-2" name="First name" placeholder="First name" type="text" bottomText="Enter your first name." [formCtrl]="firstNameFormControl"></app-input>
+        <app-input class="flex-1 ml-2" name="Last name" placeholder="Last name" type="text" bottomText="Enter your last name." [formCtrl]="lastNamFormControl"></app-input>
+      </div>
+      <app-input name="Username" placeholder="Username" type="text" bottomText="This will be your username. You can't change it later." [formCtrl]="usernameFormControl"></app-input>
+      <app-input name="Email address" placeholder="Email address" type="email" bottomText="We’ll never share your email address with anyone." [formCtrl]="emailFormControl"></app-input>
+
+      <app-input name="Password" placeholder="Password" type="password" bottomText="Use 8 or more characters with a mix of letters, numbers & symbols." [formCtrl]="passwordFormControl"></app-input>
+      <div class="ui">
+        <div class="ui divider"></div>
+        <p>You agree to the Notenic <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</p>
+        <div class="ui divider"></div>
+      </div>
+      <div>
+        <button (click)="onRegisterClick()" class="ui button primary" [ngClass]="[registerForm.valid ? '' : 'disabled', isLoading ? 'disabled loading' : '']"
+          [disabled]="isLoading || !registerForm.valid"
+        >
+          Register
+        </button>
+      </div>
+    </form>
+
+    <div class="hidden md:block">
+      <div class="ui cards">
+        <div class="card">
+          <div class="content">
+            <div class="header">
+              You will love Notenic
+            </div>
+          </div>
+          <div class="extra content">
+            <div class="description">
+              <i class="icon file alternate outline"></i>
+              Unlimited public notes.
+            </div>
+            <div class="description">
+              <i class="icon file alternate"></i>
+              Unlimited private notes.
+            </div>
+            <div class="description">
+              <i class="icon handshake"></i>
+              Limitless collaboration
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

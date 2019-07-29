@@ -1,0 +1,25 @@
+<div *ngIf="type !== 'password'" class="field margin-bottom-1" [ngClass]="[required && showLabel ? 'required' : '', validationError ? 'error' : '']">
+  <label *ngIf="showLabel">{{ name }}</label>
+  <div class="field">
+    <input [type]="type" [formControl]="formCtrl" [placeholder]="placeholder">
+    <p *ngIf="bottomText && !validationError" class="text-gray-700 mt-1 text-sm">{{ bottomText }}</p>
+    <p *ngIf="validationError" class="error-text-color mt-1 text-sm">{{ validationError }}</p>
+  </div>
+</div>
+
+<div *ngIf="type === 'password'" class="field margin-bottom-1" [ngClass]="[required && showLabel ? 'required' : '', validationError ? 'error' : '']">
+  <label *ngIf="showLabel">{{ name }}</label>
+  <div class="field">
+    <div class="ui input flex items-center">
+      <input [type]="showPassword ? 'text' : 'password'" [formControl]="formCtrl" [placeholder]="placeholder">
+      <div class="ml-2">
+        <button class="ui icon button" (click)="onToggleShowPassword()">
+          <i *ngIf="!showPassword" class="eye slash icon"></i>
+          <i *ngIf="showPassword" class="eye icon"></i>
+        </button>
+      </div>
+    </div>
+    <p *ngIf="bottomText && !validationError" class="text-gray-700 mt-1 text-sm">{{ bottomText }}</p>
+    <p *ngIf="validationError" class="error-text-color mt-1 text-sm">{{ validationError }}</p>
+  </div>
+</div>

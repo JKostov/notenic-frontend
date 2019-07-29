@@ -1,0 +1,33 @@
+/* You can add global styles to this file, and also import other style files */
+@import'../node_modules/semantic-ui-css/semantic.min.css';
+
+@import'./tailwindcss/styles.css';
+
+.padding-0 {
+  padding: 0 !important;
+
+  &::before {
+    content: none !important;
+  }
+}
+
+.logo {
+  margin: 0 !important;;
+  width: 4rem !important;
+}
+
+.margin-0 {
+  margin: 0 !important;
+}
+
+.margin-b-0 {
+  margin-bottom: 0 !important;
+}
+
+.margin-t-0 {
+  margin-top: 0 !important;
+}
+
+.margin-b-4 {
+  margin-bottom: 1rem !important;
+}

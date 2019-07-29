@@ -1,0 +1,46 @@
+<div class="m-auto max-w-2xl">
+  <div class="image m-auto mt-8 mb-8">
+    <div class="flex flex-col">
+      <a class="m-auto" routerLink="/">
+        <img class="w-20" src="assets/logo.png">
+      </a>
+    </div>
+    <p class="text-center">Sign in to Notenic</p>
+  </div>
+  <div class="ui very padded container segment">
+    <sui-message *ngIf="error" class="error margin-b-4">
+      <div class="header">
+        Error
+      </div>
+      <p>{{ error }}</p>
+    </sui-message>
+    <sui-message *ngIf="info" class="info margin-b-4">
+      <div class="header">
+        Info
+      </div>
+      <p>{{ info }}</p>
+    </sui-message>
+    <form class="ui form" [formGroup]="loginForm">
+      <app-input name="Email address" placeholder="Email address" type="email"
+                 [formCtrl]="emailFormControl"></app-input>
+      <app-input name="Password" placeholder="Password" type="password" [formCtrl]="passwordFormControl"></app-input>
+      <div class="flex flex-row mb-4">
+        <div class="flex-1">
+          <button name="login" (click)="onLoginClick()" class="ui button primary"
+                  [disabled]="isLoading || !loginForm.valid"
+                  [ngClass]="[loginForm.valid ? '' : 'disabled', isLoading ? 'disabled loading' : '']" type="button">
+            Submit
+          </button>
+        </div>
+        <div class="flex flex-1 justify-end">
+          <button name="login" routerLink="/forgot-password" class="ui button basic primary" type="button">
+            Forgot password?
+          </button>
+        </div>
+      </div>
+    </form>
+    <p class="text-center text-gray-500 text-xs">
+      &copy;2019 Notenic. All rights reserved.
+    </p>
+  </div>
+</div>
