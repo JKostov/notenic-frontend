@@ -9,7 +9,7 @@ import { takeUntil } from 'rxjs/operators';
 import { getError, getInfo, getIsLoading } from '../store/auth.selectors';
 
 @Component({
-  selector: 'app-login',
+  selector: 'note-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })

@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { FormHelper } from '@notenic/helpers/form.helper';
 
 @Component({
-  selector: 'app-input',
+  selector: 'note-input',
   templateUrl: './input.component.html',
   styleUrls: ['./input.component.scss']
 })

@@ -1,7 +1,6 @@
 FROM node:10.16-alpine
 
 RUN mkdir -p /app/src
-
 WORKDIR /app
 
 ADD . /app

@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RegisterComponent } from './register.component';
+import { SharedModule } from '@app/shared/shared.module';
+import { provideMockStore } from '@ngrx/store/testing';
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
@@ -8,7 +10,23 @@ describe('RegisterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RegisterComponent ]
+      imports: [
+        SharedModule,
+      ],
+      declarations: [ RegisterComponent ],
+      providers: [
+        provideMockStore({
+          initialState: {
+            auth: {
+              error: null,
+              info: null,
+              isLoading: false,
+              user: null,
+              token: null,
+            },
+          }
+        }),
+      ],
     })
     .compileComponents();
   }));

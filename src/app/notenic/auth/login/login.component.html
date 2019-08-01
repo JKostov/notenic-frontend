@@ -21,9 +21,9 @@
       <p>{{ info }}</p>
     </sui-message>
     <form class="ui form" [formGroup]="loginForm">
-      <app-input name="Email address" placeholder="Email address" type="email"
-                 [formCtrl]="emailFormControl"></app-input>
-      <app-input name="Password" placeholder="Password" type="password" [formCtrl]="passwordFormControl"></app-input>
+      <note-input name="Email address" placeholder="Email address" type="email"
+                 [formCtrl]="emailFormControl"></note-input>
+      <note-input name="Password" placeholder="Password" type="password" [formCtrl]="passwordFormControl"></note-input>
       <div class="flex flex-row mb-4">
         <div class="flex-1">
           <button name="login" (click)="onLoginClick()" class="ui button primary"

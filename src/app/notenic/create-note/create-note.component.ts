@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 
 @Component({
-  selector: 'app-create-note',
+  selector: 'note-create-note',
   templateUrl: './create-note.component.html',
   styleUrls: ['./create-note.component.scss'],
   encapsulation: ViewEncapsulation.ShadowDom

@@ -1,0 +1,27 @@
+FROM node:10.16-alpine as build
+
+RUN mkdir -p /app/src
+WORKDIR /app
+
+RUN apk update \
+    && apk add chromium
+ENV CHROME_BIN=/usr/bin/chromium-browser
+
+ADD package.json /app/package.json
+ADD . /app
+
+RUN npm ci
+RUN npm install -g @angular/cli@8.0.6
+
+# run tests
+RUN ng test --browsers ChromeHeadless
+#RUN ng e2e --port 4202
+
+## production environment ##
+RUN ng build --prod --output-path=dist
+
+FROM nginx:1.17-alpine
+
+COPY --from=build /app/dist /usr/share/nginx/html
+
+CMD ["nginx", "-g", "daemon off;"]

@@ -5,11 +5,11 @@ import { select, Store } from '@ngrx/store';
 import { IAuthState } from '../store/auth.state';
 import { takeUntil } from 'rxjs/operators';
 import { getError, getInfo, getIsLoading } from '../store/auth.selectors';
-import { ForgotPasswordModel } from '../models/forgot-password.model';
 import { ForgotPasswordSendMailRequest } from '../store/auth.actions';
+import { ForgotPasswordModel } from '@notenic/auth/models';
 
 @Component({
-  selector: 'app-forgot-password',
+  selector: 'note-forgot-password',
   templateUrl: './forgot-password.component.html',
   styleUrls: ['./forgot-password.component.scss']
 })

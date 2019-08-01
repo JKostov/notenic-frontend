@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AuthComponent } from './auth.component';
+import {Component} from '@angular/core';
+import {FormControl} from '@angular/forms';
 
 describe('AuthComponent', () => {
   let component: AuthComponent;
@@ -8,7 +10,7 @@ describe('AuthComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AuthComponent ]
+      declarations: [ TestHostComponent, AuthComponent ]
     })
     .compileComponents();
   }));
@@ -23,3 +25,11 @@ describe('AuthComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
+@Component({
+  selector: 'router-outlet',
+  template: `<div></div>`
+})
+class TestHostComponent {
+  control = new FormControl();
+}

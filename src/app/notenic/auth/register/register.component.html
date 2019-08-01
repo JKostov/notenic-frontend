@@ -12,13 +12,13 @@
         <p>{{ error }}</p>
       </sui-message>
       <div class="flex flex-row">
-        <app-input class="flex-1 mr-2" name="First name" placeholder="First name" type="text" bottomText="Enter your first name." [formCtrl]="firstNameFormControl"></app-input>
-        <app-input class="flex-1 ml-2" name="Last name" placeholder="Last name" type="text" bottomText="Enter your last name." [formCtrl]="lastNamFormControl"></app-input>
+        <note-input class="flex-1 mr-2" name="First name" placeholder="First name" type="text" bottomText="Enter your first name." [formCtrl]="firstNameFormControl"></note-input>
+        <note-input class="flex-1 ml-2" name="Last name" placeholder="Last name" type="text" bottomText="Enter your last name." [formCtrl]="lastNamFormControl"></note-input>
       </div>
-      <app-input name="Username" placeholder="Username" type="text" bottomText="This will be your username. You can't change it later." [formCtrl]="usernameFormControl"></app-input>
-      <app-input name="Email address" placeholder="Email address" type="email" bottomText="We’ll never share your email address with anyone." [formCtrl]="emailFormControl"></app-input>
+      <note-input name="Username" placeholder="Username" type="text" bottomText="This will be your username. You can't change it later." [formCtrl]="usernameFormControl"></note-input>
+      <note-input name="Email address" placeholder="Email address" type="email" bottomText="We’ll never share your email address with anyone." [formCtrl]="emailFormControl"></note-input>
 
-      <app-input name="Password" placeholder="Password" type="password" bottomText="Use 8 or more characters with a mix of letters, numbers & symbols." [formCtrl]="passwordFormControl"></app-input>
+      <note-input name="Password" placeholder="Password" type="password" bottomText="Use 8 or more characters with a mix of letters, numbers & symbols." [formCtrl]="passwordFormControl"></note-input>
       <div class="ui">
         <div class="ui divider"></div>
         <p>You agree to the Notenic <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</p>

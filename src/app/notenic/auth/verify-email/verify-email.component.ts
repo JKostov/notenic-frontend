@@ -7,7 +7,7 @@ import { IAuthState } from '../store/auth.state';
 import { VerifyEmailFail, VerifyEmailRequest } from '../store/auth.actions';
 
 @Component({
-  selector: 'app-verify-email',
+  selector: 'note-verify-email',
   templateUrl: './verify-email.component.html',
   styleUrls: ['./verify-email.component.scss']
 })

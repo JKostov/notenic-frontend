@@ -10,7 +10,7 @@ import { getError, getIsLoading } from '../store/auth.selectors';
 import { ResetPasswordModel } from '../models/index';
 
 @Component({
-  selector: 'app-reset-password',
+  selector: 'note-reset-password',
   templateUrl: './reset-password.component.html',
   styleUrls: ['./reset-password.component.scss']
 })

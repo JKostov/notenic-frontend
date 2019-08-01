@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ForgotPasswordComponent } from './forgot-password.component';
+import { SharedModule } from '@app/shared/shared.module';
+import { provideMockStore } from '@ngrx/store/testing';
 
 describe('ForgotPasswordComponent', () => {
   let component: ForgotPasswordComponent;
@@ -8,7 +9,23 @@ describe('ForgotPasswordComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ForgotPasswordComponent ]
+      imports: [
+        SharedModule,
+      ],
+      declarations: [ ForgotPasswordComponent ],
+      providers: [
+        provideMockStore({
+          initialState: {
+            auth: {
+              error: null,
+              info: null,
+              isLoading: false,
+              user: null,
+              token: null,
+            }
+          }
+        }),
+      ],
     })
     .compileComponents();
   }));

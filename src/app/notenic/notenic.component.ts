@@ -9,7 +9,7 @@ import { User } from '@notenic/models';
 import { AuthService } from '@notenic/services/auth/auth.service';
 
 @Component({
-  selector: 'app-notenic',
+  selector: 'note-notenic',
   templateUrl: './notenic.component.html',
   styleUrls: ['./notenic.component.scss']
 })

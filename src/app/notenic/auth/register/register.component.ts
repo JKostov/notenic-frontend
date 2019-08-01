@@ -9,7 +9,7 @@ import { RegisterModel } from '../models/index';
 import { InitRegister } from '../store/auth.actions';
 
 @Component({
-  selector: 'app-register',
+  selector: 'note-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
