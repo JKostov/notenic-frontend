@@ -12,6 +12,7 @@ ADD . /app
 
 RUN npm ci
 RUN npm install -g @angular/cli@8.0.6
+RUN npm run tailwind
 
 # run tests
 RUN ng test --browsers ChromeHeadless
