@@ -2,7 +2,7 @@
 
 sshpass -p $DEPLOY_PASSWORD ssh -A travis@$DEPLOY_SERVER <<EOF
     cd $DEPLOY_DIR
-    docker-compose up --force-recreate --no-deps -d notenic-api
-    docker rmi -f jkostov/notenic-api:latest
+    docker-compose up --force-recreate --no-deps -d notenic-frontend
+    docker rmi -f jkostov/notenic-frontend:latest
     docker image prune -f
 EOF
