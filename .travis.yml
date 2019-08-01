@@ -1,23 +1,23 @@
 language: ruby
 
 services:
-- docker
+  - docker
 
 before_install:
-- curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-- sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-- sudo apt-get update
-- sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
-- sudo apt-get install sshpass
-- ssh-keyscan $DEPLOY_SERVER >> ~/.ssh/known_hosts
+#  - sudo apt-get update
+  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+  - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
+  - sudo apt-get install sshpass
+  - ssh-keyscan $DEPLOY_SERVER >> ~/.ssh/known_hosts
 
 script:
-- docker build -t jkostov/notenic-frontend -f Dockerfile.prod .
-- docker tag jkostov/notenic-frontend:latest jkostov/notenic-frontend:$TRAVIS_BUILD_NUMBER
-- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-- docker login
-- docker push jkostov/notenic-frontend:latest
-- docker push jkostov/notenic-frontend:$TRAVIS_BUILD_NUMBER
+  - docker build -t jkostov/notenic-frontend -f Dockerfile.prod .
+  - docker tag jkostov/notenic-frontend:latest jkostov/notenic-frontend:$TRAVIS_BUILD_NUMBER
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker login
+  - docker push jkostov/notenic-frontend:latest
+  - docker push jkostov/notenic-frontend:$TRAVIS_BUILD_NUMBER
 
 after_success:
-- sh ./bin/travis-deploy.sh
+  - sh ./bin/travis-deploy.sh
