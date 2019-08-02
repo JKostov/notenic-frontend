@@ -15,7 +15,7 @@ script:
   - docker build -t jkostov/notenic-frontend -f Dockerfile.prod .
   - docker tag jkostov/notenic-frontend:latest jkostov/notenic-frontend:$TRAVIS_BUILD_NUMBER
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - docker login
+#  - docker login
   - docker push jkostov/notenic-frontend:latest
   - docker push jkostov/notenic-frontend:$TRAVIS_BUILD_NUMBER
 
