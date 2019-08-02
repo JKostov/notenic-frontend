@@ -23,6 +23,7 @@ RUN ng build --prod --output-path=dist
 
 FROM nginx:1.17-alpine
 
+COPY nginx /etc/nginx/conf.d
 COPY --from=build /app/dist /usr/share/nginx/html
 
 CMD ["nginx", "-g", "daemon off;"]
