@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 import { ForgotPasswordModel, LoginModel, LoginSuccessModel, RegisterModel, ResetPasswordModel } from '@notenic/auth/models/index';
-import { TokenInterceptor } from '@notenic/services/auth/token-interceptor.service';
 import { User } from '@notenic/models';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
@@ -11,26 +10,28 @@ import { JwtHelperService } from '@auth0/angular-jwt';
   providedIn: 'root'
 })
 export class AuthService {
+  public static AuthToken = 'AUTH_TOKEN';
+  public static AuthUser = 'AUTH_USER';
 
   constructor(private http: HttpClient) { }
 
   static saveUserInLocalStorage(loginSuccessModel: LoginSuccessModel): void {
-    localStorage.setItem(TokenInterceptor.AuthToken, loginSuccessModel.token);
-    localStorage.setItem(TokenInterceptor.AuthUser, JSON.stringify(loginSuccessModel.user));
+    localStorage.setItem(AuthService.AuthToken, loginSuccessModel.token);
+    localStorage.setItem(AuthService.AuthUser, JSON.stringify(loginSuccessModel.user));
   }
 
   static clearLocalStorage(): void {
-    localStorage.removeItem(TokenInterceptor.AuthToken);
-    localStorage.removeItem(TokenInterceptor.AuthUser);
+    localStorage.removeItem(AuthService.AuthToken);
+    localStorage.removeItem(AuthService.AuthUser);
   }
 
   static getUserFromLocalStorage(): User {
-    return JSON.parse(localStorage.getItem(TokenInterceptor.AuthUser));
+    return JSON.parse(localStorage.getItem(AuthService.AuthUser));
   }
 
   static getValidTokenFromLocalStorageOrClear(): string {
     const jwtService = new JwtHelperService();
-    const token = localStorage.getItem(TokenInterceptor.AuthToken);
+    const token = localStorage.getItem(AuthService.AuthToken);
 
     const isExpired = jwtService.isTokenExpired(token);
 

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
-import { TokenInterceptor } from '@notenic/services/auth/token-interceptor.service';
+import { AuthService } from '@notenic/services/auth/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +9,7 @@ export class LoggedGuard implements CanActivate {
   constructor(private router: Router) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    const token = localStorage.getItem(TokenInterceptor.AuthToken);
+    const token = localStorage.getItem(AuthService.AuthToken);
 
     if (token) {
       return true;

@@ -1,4 +1,90 @@
+<!--<div class="markdown-editor">-->
+<!--<div>-->
+<!--<button (click)="sidebar.toggle()">Options</button>-->
+<!--</div>-->
+<!--<div class="markdown-editor__container">-->
+<!--<textarea rows="10" class="variable-textarea" [(ngModel)]="markdown"></textarea>-->
+<!--<markdown lineNumbers class="variable-binding" [data]="markdown"></markdown>-->
+<!--<div class="markdown-editor__container-options">-->
+<!---->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+
+<!--<sui-sidebar-container class="ui bottom attached segment">-->
+<!--<sui-sidebar class="inverted vertical" #sidebar>-->
+<!--<a class="item">1</a>-->
+<!--<a class="item">2</a>-->
+<!--</sui-sidebar>-->
+<!--<sui-sidebar-sibling>-->
+<!--<div class="ui basic segment">-->
+<!--<h3 class="ui header">Content</h3>-->
+<!--<textarea rows="10" class="variable-textarea" [(ngModel)]="markdown"></textarea>-->
+<!--<markdown lineNumbers class="variable-binding" [data]="markdown"></markdown>-->
+<!--<button class="ui button" (click)="sidebar.open()">Open Sidebar</button>-->
+<!--</div>-->
+<!--</sui-sidebar-sibling>-->
+<!--</sui-sidebar-container>-->
+
 <div class="markdown-editor">
-  <textarea class="variable-textarea" [(ngModel)]="markdown"></textarea>
-  <markdown lineNumbers class="variable-binding" [data]="markdown"></markdown>
+  <sui-sidebar-container class="ui bottom">
+    <sui-sidebar class="inverted vertical markdown-editor__sidebar" transition="overlay" direction="right"
+                 [isVisible]="true" #sidebar>
+      <div class="ui inverted markdown-editor__sidebar-content">
+        <h3>Note settings</h3>
+        <div class="ui inverted">
+          <label class="ui inverted">Title</label>
+          <div class="ui inverted mini fluid input">
+            <input [formControl]="titleFormControl" name="title" type="text">
+          </div>
+          <div class="ui inverted divider"></div>
+
+          <label class="ui inverted">Image</label>
+          <div class="ui inverted mini fluid input">
+            <div *ngIf="!imgSrc" class="ui card">
+              <div class="image">
+                <div class="ui markdown-editor__sidebar-content-picker">
+                  <input [formControl]="imageFormControl" type="file" name="image" accept="image/*" style="display: none" (change)="selectImage($event)" #image>
+                  <button class="ui secondary mini button" (click)="image.click()">Select image</button>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="imgSrc" class="ui markdown-editor__sidebar-content-preview">
+              <button name="delete-image" (click)="removeImage()" class="ui red icon mini button ui markdown-editor__sidebar-content-preview-delete">
+                <i class="trash icon"></i>
+              </button>
+              <img class="ui medium bordered image markdown-editor__sidebar-content-preview-image" [src]="imgSrc" >
+            </div>
+          </div>
+          <div class="ui inverted divider"></div>
+
+          <button (click)="publishNote()" class="ui small primary button">
+            Publish
+          </button>
+        </div>
+      </div>
+    </sui-sidebar>
+    <sui-sidebar-sibling>
+      <div class="markdown-editor__container">
+        <div class="markdown-editor__container-header">
+            <div class="markdown-editor__container-header-item">Markdown</div>
+            <div class="markdown-editor__container-header-item">Preview</div>
+          <div>
+            <button name="publish" (click)="sidebar.toggle()" class="ui icon button markdown-editor__container-header-button">
+              <i class="icon settings"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="ui divider"></div>
+
+        <div class="markdown-editor__container-markdown">
+          <textarea name="markdown" [formControl]="markDownFormControl"class="markdown-editor__container-markdown-variable-textarea"></textarea>
+          <markdown lineNumbers class="markdown-editor__container-markdown-variable-binding"
+                    [data]="markDownFormControl.value"></markdown>
+        </div>
+      </div>
+    </sui-sidebar-sibling>
+  </sui-sidebar-container>
 </div>
