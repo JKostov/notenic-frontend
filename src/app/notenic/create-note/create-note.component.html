@@ -40,6 +40,27 @@
           </div>
           <div class="ui inverted divider"></div>
 
+
+          <div>
+            <div class="type-radio">
+              <input [formControl]="publicFormControl" value="true" [checked]="true" name="type" type="radio">
+              <div class="type-radio__text">
+                <i class="icon file alternate outline type-radio__text-icon"></i>
+                <label class="ui inverted">Public</label>
+              </div>
+            </div>
+
+            <div class="type-radio">
+              <input [formControl]="publicFormControl" value="false" name="type" type="radio">
+              <div class="type-radio__text">
+                <i class="icon lock alternate type-radio__text-icon"></i>
+                <label class="ui inverted">Private</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="ui inverted divider"></div>
+
           <label class="ui inverted">Image</label>
           <div class="ui inverted mini fluid input">
             <div *ngIf="!imgSrc" class="ui card">

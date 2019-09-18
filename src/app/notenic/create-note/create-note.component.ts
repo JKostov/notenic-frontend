@@ -16,6 +16,7 @@ import { SaveNoteRequest } from '@notenic/store/notenic.actions';
 export class CreateNoteComponent implements OnInit {
   markDownFormControl: FormControl;
   titleFormControl: FormControl;
+  publicFormControl: FormControl;
   imageFormControl: FormControl;
   imgSrc: string = null;
   img: string = null;
@@ -26,6 +27,7 @@ export class CreateNoteComponent implements OnInit {
   ngOnInit(): void {
     this.markDownFormControl = this.fb.control('## Subtitle', Validators.required);
     this.titleFormControl = this.fb.control('', Validators.required);
+    this.publicFormControl = this.fb.control(true, Validators.required);
     this.imageFormControl = this.fb.control('', Validators.required);
   }
 
@@ -36,7 +38,7 @@ export class CreateNoteComponent implements OnInit {
       const formData = new FormData();
       formData.append('images', file, file.name);
 
-      const baseUrl = this.noteService.getImageUrl();
+      const baseUrl = NoteService.getImageUrl();
 
       this.noteService.uploadImages(formData).pipe(first()).subscribe(
         (model: UploadImages) => {
@@ -62,10 +64,23 @@ export class CreateNoteComponent implements OnInit {
       title: this.titleFormControl.value,
       markdown: this.markDownFormControl.value,
       image: this.img,
+      public: this.getBool(this.publicFormControl.value),
     };
 
     this.store.dispatch(new SaveNoteRequest({ createNote }));
+  }
 
-    this.noteService.publishNote(createNote).subscribe(data => console.log(data));
+  getBool(value: any): boolean {
+    switch (value) {
+      case true:
+      case 'true':
+      case 1:
+      case '1':
+      case 'on':
+      case 'yes':
+        return true;
+      default:
+        return false;
+    }
   }
 }

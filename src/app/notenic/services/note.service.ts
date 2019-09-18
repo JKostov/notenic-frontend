@@ -12,6 +12,10 @@ export class NoteService {
   constructor(private readonly http: HttpClient) {
   }
 
+  public static getImageUrl(): string {
+    return `${environment.apiUrl}/images/`;
+  }
+
   getFeed(): Observable<Note[]> {
     const url = `${environment.apiUrl}/notes`;
 
@@ -34,9 +38,5 @@ export class NoteService {
     const url = `${environment.apiUrl}/images/${image}`;
 
     return this.http.delete<DeleteImage>(url);
-  }
-
-  getImageUrl(): string {
-    return `${environment.apiUrl}/images/`;
   }
 }

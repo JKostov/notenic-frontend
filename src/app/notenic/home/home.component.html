@@ -1,3 +1,40 @@
-<div class="container">
-  <div>Test</div>
+<div class="container mx-auto mt-4">
+
+  <div *ngFor="let note of notes" class="ui centered card note-card">
+    <div class="image">
+      <img [src]="imgUrl + note.image">
+    </div>
+    <div class="content">
+      <a class="header">{{ note.title }}</a>
+      <!--<div class="meta">-->
+        <!--<span class="date">Joined in 2013</span>-->
+      <!--</div>-->
+      <div class="description">
+        <div class="comment">
+          <a class="avatar">
+            <img [src]="imgUrl + note.image">
+          </a>
+          <div class="content">
+            <a class="author">{{ note.user.username }}</a>
+            <!--<div class="metadata">-->
+              <!--<span class="date">Today at 5:42PM</span>-->
+            <!--</div>-->
+            <!--<div class="text">-->
+              <!--How artistic!-->
+            <!--</div>-->
+            <!--<div class="actions">-->
+              <!--<a class="reply">Reply</a>-->
+            <!--</div>-->
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="extra content">
+      <a>
+        <i class="user icon"></i>
+        22 Friends
+      </a>
+    </div>
+  </div>
+
 </div>

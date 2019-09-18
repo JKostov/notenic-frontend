@@ -11,4 +11,5 @@ export interface CreateNote {
   title: string;
   markdown: string;
   image: string;
+  public: boolean;
 }

@@ -102,7 +102,10 @@ export class AuthEffects {
   @Effect({ dispatch: false})
   logoutEffect$: Observable<Action> = this.actions$.pipe(
     ofType<authActions.Logout>(authActions.ActionsEnum.Logout),
-    tap(() => AuthService.clearLocalStorage())
+    tap(() => {
+      AuthService.clearLocalStorage();
+      this.router.navigate(['/']);
+    })
   );
 
   constructor(private readonly authService: AuthService, private readonly actions$: Actions, private readonly router: Router) { }

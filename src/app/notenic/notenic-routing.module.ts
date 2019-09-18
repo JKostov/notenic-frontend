@@ -18,7 +18,8 @@ const routes: Routes = [
       {
         path: 'note/create',
         component: CreateNoteComponent,
-        canActivate: [LoggedGuard]
+        canActivate: [LoggedGuard],
+        canLoad: [LoggedGuard]
       },
     ]
   },
