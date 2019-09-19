@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import {Form, FormBuilder, FormControl, Validators} from '@angular/forms';
 import { NoteService } from '@notenic/services/note.service';
 import { first } from 'rxjs/operators';
 import { CreateNote, DeleteImage, UploadImages } from '@notenic/models';
@@ -16,10 +16,12 @@ import { SaveNoteRequest } from '@notenic/store/notenic.actions';
 export class CreateNoteComponent implements OnInit {
   markDownFormControl: FormControl;
   titleFormControl: FormControl;
+  tagsFormControl: FormControl;
   publicFormControl: FormControl;
   imageFormControl: FormControl;
   imgSrc: string = null;
   img: string = null;
+  tags: string[] = [];
 
   constructor(private readonly fb: FormBuilder, private readonly noteService: NoteService, private readonly store: Store<INotenicState>) {
   }
@@ -27,6 +29,7 @@ export class CreateNoteComponent implements OnInit {
   ngOnInit(): void {
     this.markDownFormControl = this.fb.control('## Subtitle', Validators.required);
     this.titleFormControl = this.fb.control('', Validators.required);
+    this.tagsFormControl = this.fb.control('');
     this.publicFormControl = this.fb.control(true, Validators.required);
     this.imageFormControl = this.fb.control('', Validators.required);
   }
@@ -65,9 +68,23 @@ export class CreateNoteComponent implements OnInit {
       markdown: this.markDownFormControl.value,
       image: this.img,
       public: this.getBool(this.publicFormControl.value),
+      tags: this.tags,
     };
 
     this.store.dispatch(new SaveNoteRequest({ createNote }));
+  }
+
+  addTag(): void {
+    const tag = this.tagsFormControl.value;
+    if (!tag) {
+      return;
+    }
+    this.tags.push(tag);
+    this.tagsFormControl.setValue('');
+  }
+
+  removeTag(tag: string): void {
+    this.tags.splice(this.tags.indexOf(tag), 1);
   }
 
   getBool(value: any): boolean {

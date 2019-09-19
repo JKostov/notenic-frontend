@@ -12,4 +12,5 @@ export interface CreateNote {
   markdown: string;
   image: string;
   public: boolean;
+  tags: string[];
 }

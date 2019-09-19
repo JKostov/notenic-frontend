@@ -15,6 +15,35 @@
   }
 }
 
+.tags-container {
+  display: flex !important;
+  flex-flow: wrap !important;
+  margin-top: 10px !important;
+  padding: 5px !important;
+  background-color: #ffffff;
+  border-radius: 4px;
+  min-height: 28px;
+  min-width: 100%;
+
+  &-tag {
+    padding: 2px 8px;
+    border: 1px solid rgba(0, 0, 0, 0.6) !important;
+    border-radius: 4px !important;
+    background-color: #e8e8e8;
+    margin: 2px 4px 2px 0 !important;
+    color: rgba(0, 0, 0, 0.6);
+
+    &-icon {
+      margin: 0 !important;;
+    }
+  }
+
+  &-empty {
+    flex: 1;
+    text-align: center;
+  }
+}
+
 .markdown-editor {
   height: 100%;
 
@@ -173,5 +202,9 @@
   table td, table th {
     padding: 6px 13px;
     border: 1px solid #d0d0d0;
+  }
+
+  img {
+    max-width: 500px;
   }
 }

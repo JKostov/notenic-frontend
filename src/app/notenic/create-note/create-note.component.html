@@ -61,6 +61,33 @@
 
           <div class="ui inverted divider"></div>
 
+          <!--<label class="ui inverted">Tags</label>-->
+          <!--<div class="ui inverted mini fluid input">-->
+            <!--<input [formControl]="tagsFormControl" name="tags" type="text">-->
+          <!--</div>-->
+
+          <div class="ui right labeled left mini fluid icon input">
+            <i class="tags icon"></i>
+            <input [formControl]="tagsFormControl" (keyup.enter)="addTag()" name="tags" type="text" placeholder="Enter tags">
+            <a (click)="addTag()" class="ui tag label">
+              Add Tag
+            </a>
+          </div>
+
+          <div class="ui inverted mini fluid input">
+            <div class="ui tags-container">
+              <div *ngFor="let tag of tags" class="tags-container-tag">
+                {{ tag }}
+                <i (click)="removeTag(tag)" class="icon close alternate tags-container-tag-icon"></i>
+              </div>
+              <div *ngIf="tags.length === 0" class="tags-container-empty">
+                No tags
+              </div>
+            </div>
+          </div>
+
+          <div class="ui inverted divider"></div>
+
           <label class="ui inverted">Image</label>
           <div class="ui inverted mini fluid input">
             <div *ngIf="!imgSrc" class="ui card">
