@@ -3,7 +3,9 @@ import { TokenInterceptor } from '@app/core/interceptors/token.interceptor';
 
 
 describe('TokenInterceptor', () => {
-  beforeEach(() => TestBed.configureTestingModule({}));
+  beforeEach(() => TestBed.configureTestingModule({
+    providers: [TokenInterceptor],
+  }));
 
   it('should be created', () => {
     const service: TokenInterceptor = TestBed.get(TokenInterceptor);

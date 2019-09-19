@@ -1,14 +1,14 @@
 import {INotenicState} from './notenic.state';
 import {ActionsEnum, NotenicActions} from './notenic.actions';
 
-export const initialRecipesState: INotenicState = {
+export const initialState: INotenicState = {
   error: null,
   info: null,
   isLoading: false,
   notes: [],
 };
 
-export function notenicReducer(state: INotenicState = initialRecipesState, action: NotenicActions): INotenicState {
+export function notenicReducer(state: INotenicState = initialState, action: NotenicActions): INotenicState {
   switch (action.type) {
     case ActionsEnum.LoadNotesRequest:
     case ActionsEnum.SaveNoteRequest: {

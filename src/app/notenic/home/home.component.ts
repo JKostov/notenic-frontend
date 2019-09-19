@@ -13,7 +13,7 @@ import { NoteService } from '@notenic/services/note.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  notes: Note[];
+  notes: Note[] = [];
   imgUrl: string;
   destroy$ = new Subject<void>();
 
