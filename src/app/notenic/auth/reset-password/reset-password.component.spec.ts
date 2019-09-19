@@ -7,8 +7,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { initialAuthState } from '@notenic/auth/store/auth.reducer';
 import { FormBuilder } from '@angular/forms';
-import { IAuthState } from '@notenic/auth/store/auth.state';
-import { INotenicState } from '@notenic/store/notenic.state';
 import { initialState } from '@notenic/store/notenic.reducer';
 
 describe('ResetPasswordComponent', () => {
@@ -21,11 +19,8 @@ describe('ResetPasswordComponent', () => {
         SharedModule,
       ],
       providers: [
-        provideMockStore<IAuthState>({
-          initialState: { ...initialAuthState },
-        }),
-        provideMockStore<INotenicState>({
-          initialState: { ...initialState },
+        provideMockStore({
+          initialState: { auth: initialAuthState, notes: initialState },
         }),
         { provide: Router, useValue: { navigate: ([]) => {} } },
         { provide: ActivatedRoute, useValue: { params: new Observable()} },

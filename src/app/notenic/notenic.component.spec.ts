@@ -5,8 +5,6 @@ import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { provideMockStore } from '@ngrx/store/testing';
 import { initialAuthState } from '@notenic/auth/store/auth.reducer';
-import { IAuthState } from '@notenic/auth/store/auth.state';
-import { INotenicState } from '@notenic/store/notenic.state';
 import { initialState } from '@notenic/store/notenic.reducer';
 
 describe('NotenicComponent', () => {
@@ -17,11 +15,8 @@ describe('NotenicComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ TestHostComponent, NotenicComponent ],
       providers: [
-        provideMockStore<IAuthState>({
-          initialState: { ...initialAuthState },
-        }),
-        provideMockStore<INotenicState>({
-          initialState: { ...initialState },
+        provideMockStore({
+          initialState: { auth: initialAuthState, notes: initialState },
         }),
       ],
     })
