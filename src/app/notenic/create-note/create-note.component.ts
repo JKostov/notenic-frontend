@@ -19,6 +19,7 @@ export class CreateNoteComponent implements OnInit {
   tagsFormControl: FormControl;
   publicFormControl: FormControl;
   imageFormControl: FormControl;
+  contentImagesFormControl: FormControl;
   imgSrc: string = null;
   img: string = null;
   tags: string[] = [];
@@ -32,6 +33,7 @@ export class CreateNoteComponent implements OnInit {
     this.tagsFormControl = this.fb.control('');
     this.publicFormControl = this.fb.control(true, Validators.required);
     this.imageFormControl = this.fb.control('', Validators.required);
+    this.contentImagesFormControl = this.fb.control('');
   }
 
   selectImage(data: any): void {
@@ -39,7 +41,7 @@ export class CreateNoteComponent implements OnInit {
       const file = data.target.files[0];
 
       const formData = new FormData();
-      formData.append('images', file, file.name);
+      formData.append('images[]', file, file.name);
 
       const baseUrl = NoteService.getImageUrl();
 
@@ -47,6 +49,34 @@ export class CreateNoteComponent implements OnInit {
         (model: UploadImages) => {
           this.imgSrc = baseUrl + model.imageUrls[0];
           this.img = model.imageUrls[0];
+        }
+      );
+    }
+  }
+
+  selectContentImages(data: any): void {
+    if (data.target.files && data.target.files.length > 0) {
+      const formData = new FormData();
+
+      for (const file of data.target.files) {
+        formData.append('images[]', file, file.name);
+      }
+
+      const baseUrl = NoteService.getImageUrl();
+
+      this.noteService.uploadImages(formData).pipe(first()).subscribe(
+        (model: UploadImages) => {
+
+          model.imageUrls.forEach(imgUrl => {
+            let imgSrc = baseUrl + imgUrl;
+
+            imgSrc = imgSrc.replace(/ /g, '%20');
+
+            let md = this.markDownFormControl.value;
+            md += `\n\n![Alt](${imgSrc})`;
+
+            this.markDownFormControl.setValue(md);
+          });
         }
       );
     }

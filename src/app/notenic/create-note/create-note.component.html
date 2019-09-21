@@ -107,6 +107,11 @@
           </div>
           <div class="ui inverted divider"></div>
 
+          <input [formControl]="contentImagesFormControl" type="file" multiple name="content-images" accept="image/*" style="display: none" (change)="selectContentImages($event)" #contentImages>
+          <button class="ui mini fluid button" (click)="contentImages.click()">Upload content images</button>
+
+          <div class="ui inverted divider"></div>
+
           <button (click)="publishNote()" class="ui small primary button">
             Publish
           </button>
