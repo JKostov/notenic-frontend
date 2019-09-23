@@ -11,6 +11,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { createNotenicStoreName } from '@notenic/store/notenic.state';
 import { notenicReducer } from '@notenic/store/notenic.reducer';
 import { NotenicEffects } from '@notenic/store/notenic.effects';
+import { NotePageComponent } from './note-page/note-page.component';
 
 @NgModule({
   imports: [
@@ -25,6 +26,7 @@ import { NotenicEffects } from '@notenic/store/notenic.effects';
     NotenicComponent,
     HomeComponent,
     CreateNoteComponent,
+    NotePageComponent,
   ]
 })
 export class NotenicModule { }

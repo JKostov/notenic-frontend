@@ -2,10 +2,10 @@
 
   <div *ngFor="let note of notes" class="ui centered card note-card">
     <div class="image">
-      <img [src]="imgUrl + note.image">
+      <img class="note-image" [src]="imgUrl + note.image">
     </div>
     <div class="content">
-      <a class="header">{{ note.title }}</a>
+      <a [routerLink]="['note', note.user.username, note.title]" class="header">{{ note.title }}</a>
       <!--<div class="meta">-->
         <!--<span class="date">Joined in 2013</span>-->
       <!--</div>-->
@@ -16,6 +16,7 @@
           </a>
           <div class="content">
             <a class="author">{{ note.user.username }}</a>
+            <span class="date note-date">{{ note.createdAt | date }}</span>
             <!--<div class="metadata">-->
               <!--<span class="date">Today at 5:42PM</span>-->
             <!--</div>-->
@@ -31,9 +32,12 @@
     </div>
     <div class="extra content">
       <a>
-        <i class="user icon"></i>
-        22 Friends
+        <span><sui-rating class="heart" [ngModel]="1" [maximum]="1"></sui-rating> {{ note.likes ? note.likes.length : 0 }}</span>
+        <span class="note-num-comments"><i class="ui icon comment note-num-comments-icon"></i> {{ note.comments.length }}</span>
       </a>
+      <div *ngIf="note.tags?.length > 0" class="extra content note-tags">
+        <span class="note-tags-tag" *ngFor="let tag of note.tags; let i = index" >#{{ tag }}</span>
+      </div>
     </div>
   </div>
 

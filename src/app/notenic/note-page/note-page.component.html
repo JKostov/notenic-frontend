@@ -1,0 +1,72 @@
+<div class="note">
+  <div *ngIf="note" class="main ui centered container segment">
+    <div class="image note-image-container">
+      <img class="note-image" [src]="imgUrl + note.image">
+    </div>
+    <div class="note-content">
+      <div class="content">
+        <h1 class="header">{{ note.title }}</h1>
+
+        <div class="description">
+          <div class="comment note-header">
+            <a class="avatar">
+              <img class="avatar-image" [src]="imgUrl + note.image">
+            </a>
+            <div class="content">
+              <a class="author">{{ note.user.username }}</a>
+              <span class="date">{{ note.createdAt | date }}</span>
+            </div>
+            <div class="note-actions">
+              <sui-rating class="heart note-actions-like" title="Like note" [ngModel]="liked" [maximum]="1" (valueChange)="onLikeClick($event)" ></sui-rating>
+              <div (click)="scroll(addCommentArea)" class="note-actions-comment" title="Comment"><i class="ui icon comment note-actions-comment-icon"></i></div>
+              <!--<div class="note-actions-save" title="Save note"><i class="ui icon bookmark note-actions-save-icon"></i></div>-->
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="extra content note-likes">
+        <span><sui-rating class="heart" [ngModel]="1" [maximum]="1"></sui-rating> {{ note.likes ? note.likes.length : 0 }}</span>
+        <span class="note-num-comments"><i class="ui icon comment note-num-comments-icon"></i> {{ note.comments.length }}</span>
+      </div>
+      <div class="extra content note-tags">
+        <span class="note-tags-tag" *ngFor="let tag of note.tags; let i = index" [ngStyle]="tagColors[i]">#{{ tag }}</span>
+      </div>
+      <markdown lineNumbers class="markdown-editor__container-markdown-variable-binding"
+                [data]="note.markdown"></markdown>
+
+      <div class="ui comments note-comments">
+        <h3 class="ui dividing header">Comments</h3>
+        <div *ngFor="let comment of note.comments" class="comment note-comment">
+          <a class="avatar">
+            <img class="comment-avatar" [src]="imgUrl + note.image">
+          </a>
+          <div class="content">
+            <a class="author">{{ comment.user?.username }}</a>
+            <div class="metadata">
+              <span class="date">{{ comment.createdAt | date }}</span>
+            </div>
+            <div class="text">
+              <markdown lineNumbers [data]="comment.markdown"></markdown>
+            </div>
+          </div>
+        </div>
+
+        <form class="ui reply form">
+          <div #addCommentArea class="field">
+            <textarea *ngIf="!preview" name="comment-markdown" [formControl]="markDownFormControl"></textarea>
+            <div *ngIf="preview" class="ui segment">
+              <markdown lineNumbers  [data]="markDownFormControl.value"></markdown>
+            </div>
+          </div>
+          <button (click)="addComment()" class="ui blue labeled submit icon button">
+            <i class="icon edit"></i> Add Reply
+          </button>
+          <button (click)="togglePreview()" class="ui button secondary">
+            {{ preview ? 'Edit' : 'Preview' }}
+          </button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>

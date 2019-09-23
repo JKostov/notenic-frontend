@@ -14,3 +14,8 @@ export interface CreateNote {
   public: boolean;
   tags: string[];
 }
+
+export interface CreateNoteComment {
+  noteId: string;
+  markdown: string;
+}

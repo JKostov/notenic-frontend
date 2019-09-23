@@ -2,3 +2,32 @@
 .note-card {
   width: 50% !important;
 }
+
+.note-image {
+  height: 250px;
+  object-fit: none;
+}
+
+.note-date {
+  margin-left: 1rem;
+}
+
+.note-num-comments {
+  margin-left: 1rem;
+
+  &-icon {
+    margin: 0 !important;
+    color: #2185d0;
+  }
+}
+
+.note-tags {
+  margin-top: 0.5rem;
+
+  &-tag {
+    padding: 2px;
+    border-radius: 4px !important;
+    background-color: #e8e8e8;
+    margin: 2px 4px 2px 0 !important;
+  }
+}
