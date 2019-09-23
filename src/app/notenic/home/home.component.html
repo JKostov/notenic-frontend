@@ -6,26 +6,14 @@
     </div>
     <div class="content">
       <a [routerLink]="['note', note.user.username, note.title]" class="header">{{ note.title }}</a>
-      <!--<div class="meta">-->
-        <!--<span class="date">Joined in 2013</span>-->
-      <!--</div>-->
       <div class="description">
         <div class="comment">
           <a class="avatar">
             <img [src]="imgUrl + note.image">
           </a>
           <div class="content">
-            <a class="author">{{ note.user.username }}</a>
+            <a [routerLink]="['/profile', note.user.username]" class="author">{{ note.user.username }}</a>
             <span class="date note-date">{{ note.createdAt | date }}</span>
-            <!--<div class="metadata">-->
-              <!--<span class="date">Today at 5:42PM</span>-->
-            <!--</div>-->
-            <!--<div class="text">-->
-              <!--How artistic!-->
-            <!--</div>-->
-            <!--<div class="actions">-->
-              <!--<a class="reply">Reply</a>-->
-            <!--</div>-->
           </div>
         </div>
       </div>

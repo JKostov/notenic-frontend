@@ -10,6 +10,7 @@
     </div>
     <div *ngIf="user" class="right menu">
       <a routerLink="/note/create" class="item">Write note</a>
+      <a routerLink="/profile/{{ user.username }}" class="item">Profile</a>
       <a (click)="onLogoutClick()" class="item">Logout</a>
     </div>
   </div>

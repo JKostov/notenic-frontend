@@ -1,3 +1,4 @@
+import { Note } from '@notenic/models/note';
 
 export class User {
   id: string;
@@ -7,4 +8,9 @@ export class User {
   email: string;
   createdAt: Date | string;
   updatedAt: Date | string;
+  work: string;
+  education: string;
+  about: string;
+  notes: Note[];
+  gender: 'male' | 'female';
 }

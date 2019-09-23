@@ -23,6 +23,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   destroy$ = new Subject<void>();
   error: string = null;
   isLoading = false;
+  gender: 'male' | 'female' = 'male';
 
   constructor(private fb: FormBuilder, private store: Store<IAuthState>) {
   }
@@ -59,7 +60,12 @@ export class RegisterComponent implements OnInit, OnDestroy {
     registerModel.username = this.usernameFormControl.value;
     registerModel.email = this.emailFormControl.value;
     registerModel.password = this.passwordFormControl.value;
+    registerModel.gender = this.gender;
 
     this.store.dispatch(new InitRegister({ registerModel }));
+  }
+
+  changeGender(gender: 'male' | 'female'): void {
+    this.gender = gender;
   }
 }

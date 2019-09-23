@@ -1,0 +1,58 @@
+<div class="edit-profile max-w-3xl m-auto px-5">
+  <div *ngIf="user" class="edit-profile-content">
+
+    <form class="ui form flex-1" [formGroup]="editForm">
+      <sui-message *ngIf="error" class="error margin-b-4">
+        <div class="header">
+          Error
+        </div>
+        <p>{{ error }}</p>
+      </sui-message>
+      <div class="flex flex-row">
+        <note-input class="flex-1 mr-2" name="First name" placeholder="First name" type="text" [formCtrl]="firstNameFormControl"></note-input>
+        <note-input class="flex-1 ml-2" name="Last name" placeholder="Last name" type="text" [formCtrl]="lastNamFormControl"></note-input>
+      </div>
+
+      <note-input name="Old password" placeholder="Old password" type="password"
+                  [formCtrl]="oldPasswordFormControl"></note-input>
+
+      <note-input name="New password" placeholder="New password" type="password"
+                  bottomText="Use 8 or more characters with a mix of letters, numbers & symbols."
+                  [formCtrl]="newPasswordFormControl"></note-input>
+
+      <note-input name="Work" placeholder="Work" type="text"
+                  bottomText="Where do you work?"
+                  [formCtrl]="workFormControl"></note-input>
+
+      <note-input name="Education" placeholder="Education" type="text"
+                  [formCtrl]="educationFormControl"></note-input>
+
+      <note-input name="About" placeholder="About" type="text-area"
+                  bottomText="Tell us about yourself."
+                  [formCtrl]="aboutFormControl"></note-input>
+
+      <div class="ui gender">
+        <div class="gender-images">
+          <img class="gender-images-image" src="assets/user-male-transparent.png">
+          <img class="gender-images-image" src="assets/user-female-transparent.png">
+        </div>
+        <div class="blue ui tiny buttons gender-buttons">
+          <button (click)="changeGender('male')" class="ui tiny button gender-buttons-button"
+                  [ngClass]="gender === 'male' ? '' : 'basic-outline'">Male
+          </button>
+          <button (click)="changeGender('female')" class="ui tiny button gender-buttons-button"
+                  [ngClass]="gender === 'female' ? '' : 'basic-outline'">Female
+          </button>
+        </div>
+      </div>
+
+        <button (click)="onSubmitClick()" class="ui button primary"
+                [ngClass]="[ isLoading ? 'disabled loading' : '']"
+                [disabled]="isLoading"
+        >
+          Submit
+        </button>
+    </form>
+
+  </div>
+</div>

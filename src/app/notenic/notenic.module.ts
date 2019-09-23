@@ -12,6 +12,8 @@ import { createNotenicStoreName } from '@notenic/store/notenic.state';
 import { notenicReducer } from '@notenic/store/notenic.reducer';
 import { NotenicEffects } from '@notenic/store/notenic.effects';
 import { NotePageComponent } from './note-page/note-page.component';
+import { ProfileComponent } from './profile/profile.component';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
 
 @NgModule({
   imports: [
@@ -27,6 +29,8 @@ import { NotePageComponent } from './note-page/note-page.component';
     HomeComponent,
     CreateNoteComponent,
     NotePageComponent,
+    ProfileComponent,
+    EditProfileComponent,
   ]
 })
 export class NotenicModule { }
