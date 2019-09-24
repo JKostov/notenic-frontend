@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { CoreModule } from '@app/core/core.module';
 import { SharedModule } from '@app/shared/shared.module';
 import { NotenicModule } from '@notenic/notenic.module';
-import {MarkdownModule} from 'ngx-markdown';
+import { MarkdownModule, MarkedOptions } from 'ngx-markdown';
 
 @NgModule({
   declarations: [
@@ -13,12 +13,21 @@ import {MarkdownModule} from 'ngx-markdown';
   ],
   imports: [
     CoreModule,
-    MarkdownModule.forRoot(),
+    MarkdownModule.forRoot({
+      markedOptions: {
+        provide: MarkedOptions,
+        useValue: {
+          gfm: true,
+          headerIds: true,
+          smartypants: true,
+          tables: true,
+        }
+      }
+    }),
     SharedModule,
     NotenicModule,
-    AppRoutingModule
+    AppRoutingModule,
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

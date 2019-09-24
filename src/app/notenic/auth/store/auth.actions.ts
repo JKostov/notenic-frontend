@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
 import { LoginModel, LoginSuccessModel, RegisterModel, ResetPasswordModel, ForgotPasswordModel } from '../models/index';
+import { UpdateUser, User } from '@notenic/models';
 
 export enum ActionsEnum {
   InitLogin = '[Auth] Init login',
@@ -18,6 +19,9 @@ export enum ActionsEnum {
   ResetPasswordSuccess = '[Auth] Reset password success',
   ResetPasswordFail = '[Auth] Reset password fail,',
   Logout = '[Auth] Logout',
+  UpdateUserRequest = '[Auth] Update user request',
+  UpdateUserSuccess = '[Auth] Update user success',
+  UpdateUserFail = '[Auth] Update user fail',
 }
 
 export class InitLogin implements Action {
@@ -114,6 +118,24 @@ export class Logout implements Action {
   readonly type = ActionsEnum.Logout;
 }
 
+export class UpdateUserRequest implements Action {
+  readonly type = ActionsEnum.UpdateUserRequest;
+
+  constructor(public payload: { updateUser: UpdateUser }) { }
+}
+
+export class UpdateUserSuccess implements Action {
+  readonly type = ActionsEnum.UpdateUserSuccess;
+
+  constructor(public payload: { user: User }) { }
+}
+
+export class UpdateUserFail implements Action {
+  readonly type = ActionsEnum.UpdateUserFail;
+
+  constructor(public payload: { error: string }) { }
+}
+
 export type AuthActions = InitLogin
   | LoginSuccess
   | LoginFail
@@ -130,4 +152,7 @@ export type AuthActions = InitLogin
   | ResetPasswordSuccess
   | ResetPasswordFail
   | Logout
+  | UpdateUserRequest
+  | UpdateUserSuccess
+  | UpdateUserFail
 ;

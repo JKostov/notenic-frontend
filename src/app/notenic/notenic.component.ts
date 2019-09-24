@@ -7,6 +7,7 @@ import { LoginSuccess, Logout } from '@notenic/./auth/store/auth.actions';
 import { Subject } from 'rxjs';
 import { User } from '@notenic/models';
 import { AuthService } from '@notenic/services/auth/auth.service';
+import { LoadNotesRequest } from '@notenic/store/notenic.actions';
 
 @Component({
   selector: 'note-notenic',
@@ -26,6 +27,8 @@ export class NotenicComponent implements OnInit, OnDestroy {
       this.store.dispatch(new LoginSuccess({ loginSuccessModel: { token, user } }));
     }
     this.store.pipe(select(getUser), takeUntil(this.destroy$)).subscribe(val => this.user = val);
+
+    this.store.dispatch(new LoadNotesRequest());
   }
 
   ngOnDestroy(): void {

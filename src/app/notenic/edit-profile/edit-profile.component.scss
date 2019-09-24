@@ -1,0 +1,51 @@
+
+.edit-profile {
+  background: #fff;
+  box-shadow: 0 1px 2px 0 rgba(34,36,38,.15);
+  margin: 1rem auto;
+  padding: 1em 1em;
+  border-radius: .28571429rem;
+  border: 1px solid rgba(34,36,38,.15);
+
+  &-content {
+    padding: 0 2em 0 2em;
+  }
+
+  .gender {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .gender-images {
+    display: flex;
+    flex-direction: row;
+
+    &-image {
+      width: 100px;
+      height: 100px;
+    }
+  }
+
+  .gender-buttons {
+    width: 200px;
+    margin-top: 1rem;
+
+    &-button {
+      width: 100px;
+    }
+  }
+
+  .basic-outline {
+    color: #2185d0 !important;
+    background-color: #FFFFFF !important;
+    border: 1px solid #2185d0 !important;
+  }
+
+  .image-crop-preview {
+    border-radius: 500rem;
+    margin-right: 1rem;
+    width: 60px;
+    height: 60px;
+  }
+}

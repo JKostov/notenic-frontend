@@ -19,6 +19,18 @@
       <note-input name="Email address" placeholder="Email address" type="email" bottomText="We’ll never share your email address with anyone." [formCtrl]="emailFormControl"></note-input>
 
       <note-input name="Password" placeholder="Password" type="password" bottomText="Use 8 or more characters with a mix of letters, numbers & symbols." [formCtrl]="passwordFormControl"></note-input>
+
+      <div class="ui gender">
+        <div class="gender-images">
+          <img class="gender-images-image" src="assets/user-male-transparent.png">
+          <img class="gender-images-image" src="assets/user-female-transparent.png">
+        </div>
+        <div class="blue ui tiny buttons gender-buttons">
+          <button (click)="changeGender('male')" class="ui tiny button gender-buttons-button" [ngClass]="gender === 'male' ? '' : 'basic-outline'">Male</button>
+          <button (click)="changeGender('female')" class="ui tiny button gender-buttons-button" [ngClass]="gender === 'female' ? '' : 'basic-outline'">Female</button>
+        </div>
+      </div>
+
       <div class="ui">
         <div class="ui divider"></div>
         <p>You agree to the Notenic <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</p>

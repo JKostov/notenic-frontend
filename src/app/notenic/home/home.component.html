@@ -1,3 +1,32 @@
-<div class="container">
-  <div>Test</div>
+<div class="container mx-auto mt-4">
+
+  <div *ngFor="let note of notes" class="ui centered card note-card">
+    <div class="image">
+      <img class="note-image" [src]="note.image | noteImage">
+    </div>
+    <div class="content">
+      <a [routerLink]="['note', note.user.username, note.title]" class="header">{{ note.title }}</a>
+      <div class="description">
+        <div class="comment">
+          <a [routerLink]="['/profile', note.user.username]" class="avatar">
+            <img [src]="note.user | userImage">
+          </a>
+          <div class="content">
+            <a [routerLink]="['/profile', note.user.username]" class="author">{{ note.user.username }}</a>
+            <span class="date note-date">{{ note.createdAt | date }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="extra content">
+      <a>
+        <span><sui-rating class="heart" [ngModel]="1" [maximum]="1"></sui-rating> {{ note.likes ? note.likes.length : 0 }}</span>
+        <span class="note-num-comments"><i class="ui icon comment note-num-comments-icon"></i> {{ note.comments.length }}</span>
+      </a>
+      <div *ngIf="note.tags?.length > 0" class="extra content note-tags">
+        <span class="note-tags-tag" *ngFor="let tag of note.tags; let i = index" >#{{ tag }}</span>
+      </div>
+    </div>
+  </div>
+
 </div>

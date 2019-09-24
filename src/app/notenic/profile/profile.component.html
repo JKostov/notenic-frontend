@@ -1,0 +1,65 @@
+<div class="profile">
+  <div *ngIf="user" class="main ui centered container segment">
+    <div class="profile-content">
+
+      <div class="description">
+        <div class="comment profile-header">
+          <a class="avatar">
+            <img class="avatar-image" [src]="user | userImage">
+          </a>
+          <div class="content profile-header-info">
+            <div class="profile-header-info-name">{{ user.firstName }} {{ user.lastName }} <button *ngIf="user.id !== loggedUser?.id" class="ui button primary profile-header-info-name-follow">Follow</button></div>
+            <div><a routerLink="/edit-profile" *ngIf="user.id === loggedUser?.id" class="ui button secondary profile-header-info-edit">Edit profile</a></div>
+            <div *ngIf="user.about" class="profile-header-info-about">{{ user.about }}</div>
+          </div>
+          <div class="profile-header-divider"></div>
+          <div class="content profile-header-data">
+            <div class="content profile-header-data-item">
+              <span class="profile-header-data-item-label">Joined</span>
+              <span class="date">{{ user.createdAt | date }}</span>
+            </div>
+            <div *ngIf="user.education" class="content profile-header-data-item">
+              <span class="profile-header-data-item-label">Education</span>
+              <span class="date">{{ user.education }}</span>
+            </div>
+
+            <div *ngIf="user.work" class="content profile-header-data-item">
+              <span class="profile-header-data-item-label">Work</span>
+              <span class="date">{{ user.work }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div *ngFor="let note of user?.notes" class="ui centered card note-card">
+    <div class="image">
+      <img class="note-image" [src]="note.image | noteImage">
+    </div>
+    <div class="content">
+      <a [routerLink]="['note', user.username, note.title]" class="header">{{ note.title }}</a>
+      <div class="description">
+        <div class="comment">
+          <a class="avatar">
+            <img [src]="user | userImage">
+          </a>
+          <div class="content">
+            <a class="author">{{ user.username }}</a>
+            <span class="date note-date">{{ note.createdAt | date }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="extra content">
+      <a>
+        <span><sui-rating class="heart" [ngModel]="1" [maximum]="1"></sui-rating> {{ note.likes ? note.likes.length : 0 }}</span>
+        <span class="note-num-comments"><i class="ui icon comment note-num-comments-icon"></i> {{ note.comments.length }}</span>
+      </a>
+      <div *ngIf="note.tags?.length > 0" class="extra content note-tags">
+        <span class="note-tags-tag" *ngFor="let tag of note.tags; let i = index" >#{{ tag }}</span>
+      </div>
+    </div>
+  </div>
+</div>

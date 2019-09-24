@@ -1,7 +1,7 @@
 import { IAuthState } from './auth.state';
 import { ActionsEnum, AuthActions } from './auth.actions';
 
-export const initialRecipesState: IAuthState = {
+export const initialAuthState: IAuthState = {
   error: null,
   info: null,
   isLoading: false,
@@ -9,11 +9,12 @@ export const initialRecipesState: IAuthState = {
   token: null,
 };
 
-export function authReducer(state: IAuthState = initialRecipesState, action: AuthActions): IAuthState {
+export function authReducer(state: IAuthState = initialAuthState, action: AuthActions): IAuthState {
   switch (action.type) {
     case ActionsEnum.ResetPasswordRequest:
     case ActionsEnum.VerifyEmailRequest:
     case ActionsEnum.ForgotPasswordSendMailRequest:
+    case ActionsEnum.UpdateUserRequest:
     case ActionsEnum.InitLogin: {
       return {
         ...state,
@@ -26,6 +27,7 @@ export function authReducer(state: IAuthState = initialRecipesState, action: Aut
     case ActionsEnum.VerifyEmailFail:
     case ActionsEnum.RegisterFail:
     case ActionsEnum.ForgotPasswordSendMailFail:
+    case ActionsEnum.UpdateUserFail:
     case ActionsEnum.LoginFail: {
       return {
         ...state,
@@ -57,13 +59,20 @@ export function authReducer(state: IAuthState = initialRecipesState, action: Aut
     case ActionsEnum.ForgotPasswordSendMailSuccess:
     case ActionsEnum.RegisterSuccess: {
       return {
-        ...initialRecipesState,
+        ...initialAuthState,
         info: action.payload.info,
       };
     }
     case ActionsEnum.Logout: {
       return {
-        ...initialRecipesState,
+        ...initialAuthState,
+      };
+    }
+    case ActionsEnum.UpdateUserSuccess: {
+      return {
+        ...state,
+        user: action.payload.user,
+        isLoading: false,
       };
     }
     default: {

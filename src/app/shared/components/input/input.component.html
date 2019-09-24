@@ -1,7 +1,16 @@
-<div *ngIf="type !== 'password'" class="field margin-bottom-1" [ngClass]="[required && showLabel ? 'required' : '', validationError ? 'error' : '']">
+<div *ngIf="type !== 'password' && type !== 'text-area'" class="field margin-bottom-1" [ngClass]="[required && showLabel ? 'required' : '', validationError ? 'error' : '']">
   <label *ngIf="showLabel">{{ name }}</label>
   <div class="field">
     <input [type]="type" [formControl]="formCtrl" [placeholder]="placeholder">
+    <p *ngIf="bottomText && !validationError" class="text-gray-700 mt-1 text-sm">{{ bottomText }}</p>
+    <p *ngIf="validationError" class="error-text-color mt-1 text-sm">{{ validationError }}</p>
+  </div>
+</div>
+
+<div *ngIf="type === 'text-area'" class="field margin-bottom-1" [ngClass]="[required && showLabel ? 'required' : '', validationError ? 'error' : '']">
+  <label *ngIf="showLabel">{{ name }}</label>
+  <div class="field">
+    <textarea [formControl]="formCtrl" [placeholder]="placeholder"></textarea>
     <p *ngIf="bottomText && !validationError" class="text-gray-700 mt-1 text-sm">{{ bottomText }}</p>
     <p *ngIf="validationError" class="error-text-color mt-1 text-sm">{{ validationError }}</p>
   </div>

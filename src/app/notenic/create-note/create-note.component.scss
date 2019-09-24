@@ -1,27 +1,210 @@
 @import "markdown";
+@import '../../../../node_modules/semantic-ui-css/semantic.min.css';
+
+.type-radio {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  &__text {
+
+    &-icon {
+      margin-left: 2px !important;
+      font-size: 16px !important;
+    }
+  }
+}
+
+.tags-container {
+  display: flex !important;
+  flex-flow: wrap !important;
+  margin-top: 10px !important;
+  padding: 5px !important;
+  background-color: #ffffff;
+  border-radius: 4px;
+  min-height: 28px;
+  min-width: 100%;
+
+  &-tag {
+    padding: 2px 8px;
+    border: 1px solid rgba(0, 0, 0, 0.6) !important;
+    border-radius: 4px !important;
+    background-color: #e8e8e8;
+    margin: 2px 4px 2px 0 !important;
+    color: rgba(0, 0, 0, 0.6);
+
+    &-icon {
+      margin: 0 !important;;
+    }
+  }
+
+  &-empty {
+    flex: 1;
+    text-align: center;
+  }
+}
 
 .markdown-editor {
+  height: 100%;
 
-  .variable-binding,
-  .variable-textarea {
-    width: 49%;
+  &__container {
+    display: flex;
+    flex-direction: column;
+    margin: 0 16rem;
+    height: 100%;
+
+    &-header {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-end;
+      padding: 1rem 1rem 0 1rem;
+
+      &-item {
+        flex: 1;
+        text-align: center;
+      }
+
+      &-button {
+        margin: 0 !important;
+      }
+    }
+
+    &-markdown {
+      display: flex;
+      flex-direction: row;
+
+      &-variable-textarea {
+        border-radius: 5px;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, .07);
+        min-height: 420px;
+        padding: 8px;
+        transition: all 300ms ease-out;
+        width: 49%;
+        resize: vertical;
+        margin-right: 1rem;
+
+        &:hover {
+          box-shadow: 0 6px 12px 3px rgba(0, 0, 0, .09),
+          0 2px 3px 1px rgba(0, 0, 0, .06);
+        }
+
+        &-variable-binding {
+          display: block;
+          float: right;
+          width: 49%;
+        }
+      }
+    }
+  }
+  @media (max-width: 700px) {
+    &__container {
+      margin: 0;
+    }
+  }
+  @media (max-width: 700px) {
+    &__container {
+      margin: 0;
+    }
   }
 
-  .variable-textarea {
-    border-radius: 5px;
-    box-shadow: 0 1px 2px rgba(0,0,0,.07);
-    min-height: 420px;
-    padding: 8px;
-    transition: all 300ms ease-out;
+  &__sidebar {
+    width: 16rem !important;
+    margin-left: 1rem;
+
+    &-content {
+      color: rgba(255,255,255,.9);
+      padding: 1rem 1rem 0 1rem;
+
+      &-picker {
+        height: 100px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      &-preview {
+        height: 100px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+
+        &-delete {
+          position: absolute;
+          top: 7px;
+          right: 7px;
+          z-index: 50;
+        }
+
+        &-image {
+          height: 100px;
+          max-height: 100px;
+        }
+      }
+    }
   }
 
-  .variable-textarea:hover {
-    box-shadow: 0 6px 12px 3px rgba(0,0,0,.09),
-    0 2px 3px 1px rgba(0,0,0,.06);
-  }
-
-  .variable-binding {
+  blockquote {
     display: block;
-    float: right;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    margin-inline-start: 0;
+    margin-inline-end: 0;
+
+    display: block;
+    padding-block-start: 1em;
+    padding-block-end: 1em;
+    padding-inline-start: 40px;
+    padding-inline-end: 40px;
+    color: rgba(0, 0, 0, .535);
+    border-left: .25em solid rgba(0, 0, 0, .11);
+
+    p {
+      margin-block-start: 0;
+      margin-block-end: 0;
+      font-size: 13px;
+    }
+  }
+
+  p code {
+    margin: 0.5em 0 !important;;
+    overflow: auto !important;;
+    border-radius: 0.3em !important;;
+    background: #272822 !important;;
+    padding: 2px;
+    color: #f8f8f2;
+  }
+
+  table {
+    border-spacing: 0;
+    border-collapse: collapse;
+    margin-bottom: 16px;
+  }
+
+  thead {
+    border-bottom: 1px solid #d0d0d0;
+  }
+
+  tbody {
+    display: table-row-group;
+    vertical-align: middle;
+    border-color: #d0d0d0;
+  }
+
+  tr {
+    display: table-row;
+    vertical-align: inherit;
+    border-color: #d0d0d0;
+  }
+
+  table td, table th {
+    padding: 6px 13px;
+    border: 1px solid #d0d0d0;
+  }
+
+  img {
+    max-width: 500px;
   }
 }
