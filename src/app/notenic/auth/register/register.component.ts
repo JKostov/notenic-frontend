@@ -7,6 +7,7 @@ import { getError, getIsLoading } from '../store/auth.selectors';
 import { takeUntil } from 'rxjs/operators';
 import { RegisterModel } from '../models/index';
 import { InitRegister } from '../store/auth.actions';
+import { Gender } from '@notenic/models';
 
 @Component({
   selector: 'note-register',
@@ -23,7 +24,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   destroy$ = new Subject<void>();
   error: string = null;
   isLoading = false;
-  gender: 'male' | 'female' = 'male';
+  gender: Gender = 'male';
 
   constructor(private fb: FormBuilder, private store: Store<IAuthState>) {
   }
@@ -65,7 +66,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.store.dispatch(new InitRegister({ registerModel }));
   }
 
-  changeGender(gender: 'male' | 'female'): void {
+  changeGender(gender: Gender): void {
     this.gender = gender;
   }
 }

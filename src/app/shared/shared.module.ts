@@ -4,6 +4,8 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SuiModule } from 'ng2-semantic-ui';
 import { ComponentsModule } from '@app/shared/components/components.module';
+import { UserImagePipe } from './pipes/user-image.pipe';
+import { NoteImagePipe } from './pipes/note-image.pipe';
 
 @NgModule({
   imports: [
@@ -21,6 +23,9 @@ import { ComponentsModule } from '@app/shared/components/components.module';
     NgxSpinnerModule,
     SuiModule,
     ComponentsModule,
+    UserImagePipe,
+    NoteImagePipe,
   ],
+  declarations: [UserImagePipe, NoteImagePipe],
 })
 export class SharedModule { }

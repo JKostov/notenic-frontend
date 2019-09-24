@@ -5,7 +5,7 @@
       <div class="description">
         <div class="comment profile-header">
           <a class="avatar">
-            <img class="avatar-image" src="assets/user-{{ user.gender }}.png">
+            <img class="avatar-image" [src]="user | userImage">
           </a>
           <div class="content profile-header-info">
             <div class="profile-header-info-name">{{ user.firstName }} {{ user.lastName }} <button *ngIf="user.id !== loggedUser?.id" class="ui button primary profile-header-info-name-follow">Follow</button></div>
@@ -36,14 +36,14 @@
 
   <div *ngFor="let note of user?.notes" class="ui centered card note-card">
     <div class="image">
-      <img class="note-image" [src]="imgUrl + note.image">
+      <img class="note-image" [src]="note.image | noteImage">
     </div>
     <div class="content">
       <a [routerLink]="['note', user.username, note.title]" class="header">{{ note.title }}</a>
       <div class="description">
         <div class="comment">
           <a class="avatar">
-            <img [src]="imgUrl + note.image">
+            <img [src]="user | userImage">
           </a>
           <div class="content">
             <a class="author">{{ user.username }}</a>

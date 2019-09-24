@@ -1,7 +1,7 @@
 <div class="note">
   <div *ngIf="note" class="main ui centered container segment">
     <div class="image note-image-container">
-      <img class="note-image" [src]="imgUrl + note.image">
+      <img class="note-image" [src]="note.image | noteImage">
     </div>
     <div class="note-content">
       <div class="content">
@@ -10,7 +10,7 @@
         <div class="description">
           <div class="comment note-header">
             <a class="avatar">
-              <img class="avatar-image" [src]="imgUrl + note.image">
+              <img class="avatar-image" [src]="note.user | userImage">
             </a>
             <div class="content">
               <a class="author">{{ note.user.username }}</a>
@@ -37,11 +37,11 @@
       <div class="ui comments note-comments">
         <h3 class="ui dividing header">Comments</h3>
         <div *ngFor="let comment of note.comments" class="comment note-comment">
-          <a class="avatar">
-            <img class="comment-avatar" [src]="imgUrl + note.image">
+          <a [routerLink]="['/profile', comment.user.username]" class="avatar">
+            <img class="comment-avatar" [src]="comment.user | userImage">
           </a>
           <div class="content">
-            <a class="author">{{ comment.user?.username }}</a>
+            <a [routerLink]="['/profile', comment.user.username]" class="author">{{ comment.user?.username }}</a>
             <div class="metadata">
               <span class="date">{{ comment.createdAt | date }}</span>
             </div>

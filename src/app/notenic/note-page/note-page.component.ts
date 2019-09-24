@@ -20,7 +20,6 @@ const sortCommentsByDate = (a: Comment, b: Comment) => (new Date(a.createdAt)).g
 })
 export class NotePageComponent implements OnInit, OnDestroy {
   note: Note;
-  imgUrl: string;
   markDownFormControl: FormControl;
   preview = false;
   destroy$ = new Subject<void>();
@@ -33,7 +32,6 @@ export class NotePageComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.markDownFormControl = this.fb.control('');
-    this.imgUrl = NoteService.getImageUrl();
     this.route.params.pipe(takeUntil(this.destroy$)).subscribe((params: INoteRouteParams) => {
       this.noteService.getNoteByUserAndTitle(params.user, params.note).pipe(first()).subscribe((note: Note) => {
         note.comments.sort(sortCommentsByDate);

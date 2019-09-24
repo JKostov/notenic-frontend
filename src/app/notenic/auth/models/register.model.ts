@@ -1,3 +1,4 @@
+import { Gender } from '@notenic/models';
 
 export class RegisterModel {
   firstName: string;
@@ -5,5 +6,5 @@ export class RegisterModel {
   username: string;
   email: string;
   password: string;
-  gender: 'male' | 'female';
+  gender: Gender;
 }

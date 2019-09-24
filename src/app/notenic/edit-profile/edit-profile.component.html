@@ -9,8 +9,10 @@
         <p>{{ error }}</p>
       </sui-message>
       <div class="flex flex-row">
-        <note-input class="flex-1 mr-2" name="First name" placeholder="First name" type="text" [formCtrl]="firstNameFormControl"></note-input>
-        <note-input class="flex-1 ml-2" name="Last name" placeholder="Last name" type="text" [formCtrl]="lastNamFormControl"></note-input>
+        <note-input class="flex-1 mr-2" name="First name" placeholder="First name" type="text"
+                    [formCtrl]="firstNameFormControl"></note-input>
+        <note-input class="flex-1 ml-2" name="Last name" placeholder="Last name" type="text"
+                    [formCtrl]="lastNamFormControl"></note-input>
       </div>
 
       <note-input name="Old password" placeholder="Old password" type="password"
@@ -31,6 +33,37 @@
                   bottomText="Tell us about yourself."
                   [formCtrl]="aboutFormControl"></note-input>
 
+      <div>
+        <div>
+          <label><b>Profile image</b></label>
+          <div class="flex flex-row mb-1">
+            <img
+              *ngIf="!imagePicked"
+              class="image-crop-preview"
+              [src]="user | userImage"
+              [width]="cropperSettings.croppedWidth"
+              [height]="cropperSettings.croppedHeight"
+            />
+            <img
+              *ngIf="imagePicked"
+              class="image-crop-preview"
+              [src]="data.image"
+              [width]="cropperSettings.croppedWidth"
+              [height]="cropperSettings.croppedHeight"
+            />
+            <div class="flex flex-col justify-center">
+              <button *ngIf="!changeImage" (click)="onChangeImageClicked()" class="ui button secondary mini">Change</button>
+              <button *ngIf="changeImage" (click)="onChangeImageDone()" class="ui button secondary mini">Done</button>
+            </div>
+          </div>
+        </div>
+        <img-cropper #cropper *ngIf="changeImage" (imageSet)="onImageSet()" [image]="data" [settings]="cropperSettings"></img-cropper
+        >
+        <br/>
+      </div>
+
+      <div class="ui divider"></div>
+
       <div class="ui gender">
         <div class="gender-images">
           <img class="gender-images-image" src="assets/user-male-transparent.png">
@@ -46,12 +79,14 @@
         </div>
       </div>
 
+      <div class="mt-4">
         <button (click)="onSubmitClick()" class="ui button primary"
                 [ngClass]="[ isLoading ? 'disabled loading' : '']"
                 [disabled]="isLoading"
         >
           Submit
         </button>
+      </div>
     </form>
 
   </div>

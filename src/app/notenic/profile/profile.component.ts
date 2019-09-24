@@ -8,7 +8,6 @@ import { first, takeUntil } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { IProfileRouteParams } from '@notenic/profile/profile-route-params.interface';
 import { UserService } from '@notenic/services/user.service';
-import { NoteService } from '@notenic/services/note.service';
 
 @Component({
   selector: 'note-profile',
@@ -18,13 +17,11 @@ import { NoteService } from '@notenic/services/note.service';
 export class ProfileComponent implements OnInit, OnDestroy {
   loggedUser: User;
   user: User;
-  imgUrl: string;
   destroy$ = new Subject<void>();
 
   constructor(private store: Store<IAuthState>, private route: ActivatedRoute, private userService: UserService) { }
 
   ngOnInit(): void {
-    this.imgUrl = NoteService.getImageUrl();
     this.route.params.pipe(takeUntil(this.destroy$)).subscribe((params: IProfileRouteParams) => {
       const username = params.username;
       this.userService.getUser(username).pipe(first()).subscribe(val => this.user = val);

@@ -14,6 +14,7 @@ import { NotenicEffects } from '@notenic/store/notenic.effects';
 import { NotePageComponent } from './note-page/note-page.component';
 import { ProfileComponent } from './profile/profile.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import { ImageCropperModule } from 'ngx-img-cropper';
 
 @NgModule({
   imports: [
@@ -23,6 +24,7 @@ import { EditProfileComponent } from './edit-profile/edit-profile.component';
     MarkdownModule.forChild(),
     StoreModule.forFeature(createNotenicStoreName, notenicReducer),
     EffectsModule.forFeature([NotenicEffects]),
+    ImageCropperModule,
   ],
   declarations: [
     NotenicComponent,

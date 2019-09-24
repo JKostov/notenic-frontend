@@ -20,6 +20,10 @@ export class AuthService {
     localStorage.setItem(AuthService.AuthUser, JSON.stringify(loginSuccessModel.user));
   }
 
+  static updateUserInLocalStorage(user: User): void {
+    localStorage.setItem(AuthService.AuthUser, JSON.stringify(user));
+  }
+
   static clearLocalStorage(): void {
     localStorage.removeItem(AuthService.AuthToken);
     localStorage.removeItem(AuthService.AuthUser);

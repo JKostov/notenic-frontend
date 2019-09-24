@@ -1,3 +1,4 @@
+import { Gender } from '@notenic/models/types';
 
 export interface UploadImages {
   imageUrls: string[];
@@ -18,4 +19,16 @@ export interface CreateNote {
 export interface CreateNoteComment {
   noteId: string;
   markdown: string;
+}
+
+export interface UpdateUser {
+  firstName: string;
+  lastName: string;
+  oldPassword: string;
+  newPassword: string;
+  gender: Gender;
+  work: string;
+  education: string;
+  about: string;
+  image: string;
 }

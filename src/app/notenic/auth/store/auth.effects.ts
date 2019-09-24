@@ -9,6 +9,8 @@ import { ForgotPasswordModel, LoginModel, LoginSuccessModel, RegisterModel, Rese
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ValidationHelper } from '@app/shared/helpers/validation.helper';
+import {UpdateUser} from '@notenic/models';
+import {UserService} from '@notenic/services/user.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthEffects {
@@ -108,5 +110,27 @@ export class AuthEffects {
     })
   );
 
-  constructor(private readonly authService: AuthService, private readonly actions$: Actions, private readonly router: Router) { }
+  @Effect()
+  updateUserRequestEffect$: Observable<Action> = this.actions$.pipe(
+    ofType<authActions.UpdateUserRequest>(authActions.ActionsEnum.UpdateUserRequest),
+    map((action: authActions.UpdateUserRequest) => action.payload.updateUser),
+    exhaustMap((updateUser: UpdateUser) =>
+      this.userService.updateUser(updateUser).pipe(
+        map((user) => (new authActions.UpdateUserSuccess({ user })),
+        catchError((response: HttpErrorResponse) => of(new authActions.UpdateUserFail({
+          error: ValidationHelper.extractValidationMessageFromError(response.error.message) }))),
+        )
+      )
+    )
+  );
+
+  @Effect({ dispatch: false })
+  updateUserSuccessEffect$ = this.actions$.pipe(
+    ofType<authActions.UpdateUserSuccess>(authActions.ActionsEnum.UpdateUserSuccess),
+    map((action: authActions.UpdateUserSuccess) => action.payload.user),
+    tap(user => AuthService.updateUserInLocalStorage(user)),
+  );
+
+  constructor(private readonly authService: AuthService, private readonly actions$: Actions, private readonly router: Router,
+              private userService: UserService) { }
 }

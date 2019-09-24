@@ -1,4 +1,5 @@
 import { Note } from '@notenic/models/note';
+import { Gender } from '@notenic/models/types';
 
 export class User {
   id: string;
@@ -12,5 +13,6 @@ export class User {
   education: string;
   about: string;
   notes: Note[];
-  gender: 'male' | 'female';
+  gender: Gender;
+  image: string;
 }

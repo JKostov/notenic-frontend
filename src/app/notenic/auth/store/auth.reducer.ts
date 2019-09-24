@@ -14,6 +14,7 @@ export function authReducer(state: IAuthState = initialAuthState, action: AuthAc
     case ActionsEnum.ResetPasswordRequest:
     case ActionsEnum.VerifyEmailRequest:
     case ActionsEnum.ForgotPasswordSendMailRequest:
+    case ActionsEnum.UpdateUserRequest:
     case ActionsEnum.InitLogin: {
       return {
         ...state,
@@ -26,6 +27,7 @@ export function authReducer(state: IAuthState = initialAuthState, action: AuthAc
     case ActionsEnum.VerifyEmailFail:
     case ActionsEnum.RegisterFail:
     case ActionsEnum.ForgotPasswordSendMailFail:
+    case ActionsEnum.UpdateUserFail:
     case ActionsEnum.LoginFail: {
       return {
         ...state,
@@ -64,6 +66,13 @@ export function authReducer(state: IAuthState = initialAuthState, action: AuthAc
     case ActionsEnum.Logout: {
       return {
         ...initialAuthState,
+      };
+    }
+    case ActionsEnum.UpdateUserSuccess: {
+      return {
+        ...state,
+        user: action.payload.user,
+        isLoading: false,
       };
     }
     default: {
