@@ -13,7 +13,7 @@ export class NoteService {
   }
 
   public static getImageUrl(): string {
-    return `${environment.apiUrl}/images/`;
+    return `${environment.filesUrl}/images/`;
   }
 
   getFeed(): Observable<Note[]> {
@@ -47,13 +47,13 @@ export class NoteService {
   }
 
   uploadImages(formData: FormData): Observable<UploadImages> {
-    const url = `${environment.apiUrl}/images`;
+    const url = `${environment.filesUrl}/images`;
 
     return this.http.post<UploadImages>(url, formData);
   }
 
   deleteImage(image: string): Observable<DeleteImage> {
-    const url = `${environment.apiUrl}/images/${image}`;
+    const url = `${environment.filesUrl}/images/${image}`;
 
     return this.http.delete<DeleteImage>(url);
   }

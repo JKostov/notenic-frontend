@@ -39,7 +39,7 @@
       <img class="note-image" [src]="note.image | noteImage">
     </div>
     <div class="content">
-      <a [routerLink]="['note', user.username, note.title]" class="header">{{ note.title }}</a>
+      <a [routerLink]="['/note', user.username, note.title]" class="header">{{ note.title }}</a>
       <div class="description">
         <div class="comment">
           <a class="avatar">
