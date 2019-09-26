@@ -9,7 +9,7 @@ import { ForgotPasswordModel, LoginModel, LoginSuccessModel, RegisterModel, Rese
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ValidationHelper } from '@app/shared/helpers/validation.helper';
-import {UpdateUser} from '@notenic/models';
+import {FollowUser, UpdateUser} from '@notenic/models';
 import {UserService} from '@notenic/services/user.service';
 
 @Injectable({ providedIn: 'root' })
@@ -129,6 +129,35 @@ export class AuthEffects {
     ofType<authActions.UpdateUserSuccess>(authActions.ActionsEnum.UpdateUserSuccess),
     map((action: authActions.UpdateUserSuccess) => action.payload.user),
     tap(user => AuthService.updateUserInLocalStorage(user)),
+  );
+
+  @Effect()
+  followUserRequestEffect$: Observable<Action> = this.actions$.pipe(
+    ofType<authActions.FollowUserRequest>(authActions.ActionsEnum.FollowUserRequest),
+    map((action: authActions.FollowUserRequest) => action.payload.followUser),
+    exhaustMap((followUser: FollowUser) =>
+      this.userService.followUser(followUser).pipe(
+        map((user) => (new authActions.FollowUserSuccess({ user })),
+          catchError((response: HttpErrorResponse) => of(new authActions.FollowUserFail({
+            error: ValidationHelper.extractValidationMessageFromError(response.error.message) }))),
+        )
+      )
+    )
+  );
+
+  @Effect({ dispatch: false })
+  followUserSuccessEffect$ = this.actions$.pipe(
+    ofType<authActions.FollowUserSuccess>(authActions.ActionsEnum.FollowUserSuccess),
+    map((action: authActions.FollowUserSuccess) => action.payload.user),
+    tap(user => {
+      const u = AuthService.getUserFromLocalStorage();
+      if (u.following.find(usr => usr.id === user.id)) {
+        u.following = u.following.filter(usr => usr.id !== user.id);
+      } else {
+        u.following.push(user);
+      }
+      AuthService.updateUserInLocalStorage(u);
+    }),
   );
 
   constructor(private readonly authService: AuthService, private readonly actions$: Actions, private readonly router: Router,

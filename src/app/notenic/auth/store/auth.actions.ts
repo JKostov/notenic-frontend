@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 import { LoginModel, LoginSuccessModel, RegisterModel, ResetPasswordModel, ForgotPasswordModel } from '../models/index';
-import { UpdateUser, User } from '@notenic/models';
+import { FollowUser, UpdateUser, User } from '@notenic/models';
 
 export enum ActionsEnum {
   InitLogin = '[Auth] Init login',
@@ -22,6 +22,9 @@ export enum ActionsEnum {
   UpdateUserRequest = '[Auth] Update user request',
   UpdateUserSuccess = '[Auth] Update user success',
   UpdateUserFail = '[Auth] Update user fail',
+  FollowUserRequest = '[Auth] Follow user request',
+  FollowUserSuccess = '[Auth] Follow user success',
+  FollowUserFail = '[Auth] Follow user fail',
 }
 
 export class InitLogin implements Action {
@@ -136,6 +139,24 @@ export class UpdateUserFail implements Action {
   constructor(public payload: { error: string }) { }
 }
 
+export class FollowUserRequest implements Action {
+  readonly type = ActionsEnum.FollowUserRequest;
+
+  constructor(public payload: { followUser: FollowUser }) { }
+}
+
+export class FollowUserSuccess implements Action {
+  readonly type = ActionsEnum.FollowUserSuccess;
+
+  constructor(public payload: { user: User }) { }
+}
+
+export class FollowUserFail implements Action {
+  readonly type = ActionsEnum.FollowUserFail;
+
+  constructor(public payload: { error: string }) { }
+}
+
 export type AuthActions = InitLogin
   | LoginSuccess
   | LoginFail
@@ -155,4 +176,7 @@ export type AuthActions = InitLogin
   | UpdateUserRequest
   | UpdateUserSuccess
   | UpdateUserFail
+  | FollowUserRequest
+  | FollowUserSuccess
+  | FollowUserFail
 ;

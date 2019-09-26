@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { UpdateUser, User } from '@notenic/models';
+import { FollowUser, UpdateUser, User } from '@notenic/models';
 import { environment } from 'environments/environment';
 
 @Injectable({
@@ -21,5 +21,11 @@ export class UserService {
     const url = `${environment.apiUrl}/users`;
 
     return this.http.post<User>(url, updateUser);
+  }
+
+  followUser(followUser: FollowUser): Observable<User> {
+    const url = `${environment.apiUrl}/users/follow`;
+
+    return this.http.post<User>(url, followUser);
   }
 }

@@ -8,7 +8,24 @@
             <img class="avatar-image" [src]="user | userImage">
           </a>
           <div class="content profile-header-info">
-            <div class="profile-header-info-name">{{ user.firstName }} {{ user.lastName }} <button *ngIf="user.id !== loggedUser?.id" class="ui button primary profile-header-info-name-follow">Follow</button></div>
+            <div class="profile-header-info-name">{{ user.firstName }} {{ user.lastName }}
+              <div class="flex flex-row text-base ml-4">
+                <div class="flex flex-col">
+                  <div class="flex flex-row">
+                    <div class="flex flex-1 justify-center mr-2">{{ user.following.length }}</div>
+                    <div class="flex flex-1 justify-center">{{ user.followers.length }}</div>
+                  </div>
+                  <div class="flex flex-row">
+                    <div class="flex flex-1 justify-center mr-2">Following</div>
+                    <div class="flex flex-1 justify-center">Followers</div>
+                  </div>
+                </div>
+                <div class="flex flex-1"></div>
+              </div>
+            </div>
+            <div *ngIf="loggedUser" class="mt-4">
+              <button (click)="onFollowClick()" *ngIf="user.id !== loggedUser?.id" [ngClass]="isFollowing() ? 'basic' : ''" class="ui button primary profile-header-info-name-follow">{{ isFollowing() ? 'Unfollow' : 'Follow' }}</button>
+            </div>
             <div><a routerLink="/edit-profile" *ngIf="user.id === loggedUser?.id" class="ui button secondary profile-header-info-edit">Edit profile</a></div>
             <div *ngIf="user.about" class="profile-header-info-about">{{ user.about }}</div>
           </div>

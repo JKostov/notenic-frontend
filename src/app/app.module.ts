@@ -6,6 +6,10 @@ import { CoreModule } from '@app/core/core.module';
 import { SharedModule } from '@app/shared/shared.module';
 import { NotenicModule } from '@notenic/notenic.module';
 import { MarkdownModule, MarkedOptions } from 'ngx-markdown';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { environment } from 'environments/environment';
+
+const config: SocketIoConfig = { url: environment.notificationsUrl, options: {} };
 
 @NgModule({
   declarations: [
@@ -13,6 +17,7 @@ import { MarkdownModule, MarkedOptions } from 'ngx-markdown';
   ],
   imports: [
     CoreModule,
+    SocketIoModule.forRoot(config),
     MarkdownModule.forRoot({
       markedOptions: {
         provide: MarkedOptions,

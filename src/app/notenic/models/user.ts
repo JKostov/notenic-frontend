@@ -15,4 +15,6 @@ export class User {
   notes: Note[];
   gender: Gender;
   image: string;
+  following: User[];
+  followers: User[];
 }

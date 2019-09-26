@@ -1,5 +1,5 @@
-import { IAuthState } from './auth.state';
-import { ActionsEnum, AuthActions } from './auth.actions';
+import {IAuthState} from './auth.state';
+import {ActionsEnum, AuthActions} from './auth.actions';
 
 export const initialAuthState: IAuthState = {
   error: null,
@@ -15,6 +15,7 @@ export function authReducer(state: IAuthState = initialAuthState, action: AuthAc
     case ActionsEnum.VerifyEmailRequest:
     case ActionsEnum.ForgotPasswordSendMailRequest:
     case ActionsEnum.UpdateUserRequest:
+    case ActionsEnum.FollowUserRequest:
     case ActionsEnum.InitLogin: {
       return {
         ...state,
@@ -28,6 +29,7 @@ export function authReducer(state: IAuthState = initialAuthState, action: AuthAc
     case ActionsEnum.RegisterFail:
     case ActionsEnum.ForgotPasswordSendMailFail:
     case ActionsEnum.UpdateUserFail:
+    case ActionsEnum.FollowUserFail:
     case ActionsEnum.LoginFail: {
       return {
         ...state,
@@ -73,6 +75,24 @@ export function authReducer(state: IAuthState = initialAuthState, action: AuthAc
         ...state,
         user: action.payload.user,
         isLoading: false,
+      };
+    }
+    case ActionsEnum.FollowUserSuccess: {
+      return {
+        ...state,
+        isLoading: false,
+        user: state.user.following.find(u => u.id === action.payload.user.id)
+        ? {
+            ...state.user,
+            following: state.user.following.filter(u => u.id !== action.payload.user.id),
+        }
+        : {
+            ...state.user,
+            following: [
+              ...state.user.following,
+              action.payload.user,
+            ],
+        }
       };
     }
     default: {

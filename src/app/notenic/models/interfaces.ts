@@ -32,3 +32,7 @@ export interface UpdateUser {
   about: string;
   image: string;
 }
+
+export interface FollowUser {
+  userId: string;
+}
