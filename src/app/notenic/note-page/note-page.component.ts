@@ -3,12 +3,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { first, takeUntil } from 'rxjs/operators';
 import { INoteRouteParams } from '@notenic/note-page/note-route-params.interface';
-import { Note, User, Comment } from '@notenic/models';
+import {Note, User, Comment, BookmarkNote} from '@notenic/models';
 import { NoteService } from '@notenic/services/note.service';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { IAuthState } from '@notenic/auth/store/auth.state';
 import { getUser } from '@notenic/auth/store/auth.selectors';
+import {BookmarkNoteRequest} from '@notenic/auth/store/auth.actions';
 
 const sortCommentsByDate = (a: Comment, b: Comment) => (new Date(a.createdAt)).getTime() - (new Date(b.createdAt)).getTime();
 
@@ -91,6 +92,11 @@ export class NotePageComponent implements OnInit, OnDestroy {
     }).pipe(first()).subscribe(c => this.addCommentToTheNote(c));
   }
 
+  onSaveNoteClick(): void {
+    const bookmarkNote: BookmarkNote = { noteId: this.note.id };
+    this.store.dispatch(new BookmarkNoteRequest({ bookmarkNote }));
+  }
+
   private addCommentToTheNote(comment: Comment): void {
     this.note.comments.push(comment);
     this.note.comments.sort(sortCommentsByDate);
@@ -127,5 +133,17 @@ export class NotePageComponent implements OnInit, OnDestroy {
     if (this.note.likes.indexOf(this.user.id) !== -1) {
       this.liked = 1;
     }
+  }
+
+  isBookmarked(): boolean {
+    if (!this.user) {
+      return false;
+    }
+
+    if (this.user.bookmarkedNotes.find(n => n.id === this.note.id)) {
+      return true;
+    }
+
+    return false;
   }
 }

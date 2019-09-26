@@ -9,8 +9,9 @@ import { ForgotPasswordModel, LoginModel, LoginSuccessModel, RegisterModel, Rese
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ValidationHelper } from '@app/shared/helpers/validation.helper';
-import {FollowUser, UpdateUser} from '@notenic/models';
+import {BookmarkNote, FollowUser, UpdateUser} from '@notenic/models';
 import {UserService} from '@notenic/services/user.service';
+import {NoteService} from '@notenic/services/note.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthEffects {
@@ -160,6 +161,35 @@ export class AuthEffects {
     }),
   );
 
+  @Effect()
+  bookmarkNoteRequestEffect$: Observable<Action> = this.actions$.pipe(
+    ofType<authActions.BookmarkNoteRequest>(authActions.ActionsEnum.BookmarkNoteRequest),
+    map((action: authActions.BookmarkNoteRequest) => action.payload.bookmarkNote),
+    exhaustMap((bookmarkNote: BookmarkNote) =>
+      this.noteService.bookmarkNote(bookmarkNote).pipe(
+        map((note) => (new authActions.BookmarkNoteSuccess({ note })),
+          catchError((response: HttpErrorResponse) => of(new authActions.BookmarkNoteFail({
+            error: ValidationHelper.extractValidationMessageFromError(response.error.message) }))),
+        )
+      )
+    )
+  );
+
+  @Effect({ dispatch: false })
+  bookmarkNoteSuccessEffect$ = this.actions$.pipe(
+    ofType<authActions.BookmarkNoteSuccess>(authActions.ActionsEnum.BookmarkNoteSuccess),
+    map((action: authActions.BookmarkNoteSuccess) => action.payload.note),
+    tap(note => {
+      const u = AuthService.getUserFromLocalStorage();
+      if (u.bookmarkedNotes.find(n => n.id === note.id)) {
+        u.bookmarkedNotes = u.bookmarkedNotes.filter(n => n.id !== note.id);
+      } else {
+        u.bookmarkedNotes.push(note);
+      }
+      AuthService.updateUserInLocalStorage(u);
+    }),
+  );
+
   constructor(private readonly authService: AuthService, private readonly actions$: Actions, private readonly router: Router,
-              private userService: UserService) { }
+              private userService: UserService, private noteService: NoteService) { }
 }

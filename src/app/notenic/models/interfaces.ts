@@ -36,3 +36,7 @@ export interface UpdateUser {
 export interface FollowUser {
   userId: string;
 }
+
+export interface BookmarkNote {
+  noteId: string;
+}

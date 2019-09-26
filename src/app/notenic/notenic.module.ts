@@ -15,6 +15,7 @@ import { NotePageComponent } from './note-page/note-page.component';
 import { ProfileComponent } from './profile/profile.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { ImageCropperModule } from 'ngx-img-cropper';
+import { ProfileNotesComponent } from './profile/profile-notes/profile-notes.component';
 
 @NgModule({
   imports: [
@@ -33,6 +34,7 @@ import { ImageCropperModule } from 'ngx-img-cropper';
     NotePageComponent,
     ProfileComponent,
     EditProfileComponent,
+    ProfileNotesComponent,
   ]
 })
 export class NotenicModule { }

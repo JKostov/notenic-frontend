@@ -19,7 +19,7 @@
             <div class="note-actions">
               <sui-rating class="heart note-actions-like" title="Like note" [ngModel]="liked" [maximum]="1" (valueChange)="onLikeClick($event)" ></sui-rating>
               <div (click)="scroll(addCommentArea)" class="note-actions-comment" title="Comment"><i class="ui icon comment note-actions-comment-icon"></i></div>
-              <!--<div class="note-actions-save" title="Save note"><i class="ui icon bookmark note-actions-save-icon"></i></div>-->
+              <div (click)="onSaveNoteClick()" [ngClass]="isBookmarked() ? 'note-actions-save-active' : ''" class="note-actions-save" title="Save note"><i class="ui icon bookmark note-actions-save-icon"></i></div>
             </div>
           </div>
         </div>

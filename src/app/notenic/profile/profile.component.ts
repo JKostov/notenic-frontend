@@ -1,14 +1,15 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { IAuthState } from '@notenic/auth/store/auth.state';
-import {FollowUser, User} from '@notenic/models';
+import { FollowUser, Note, NotesTab, User } from '@notenic/models';
 import { Subject } from 'rxjs';
 import { getUser } from '@notenic/auth/store/auth.selectors';
 import { first, takeUntil } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { IProfileRouteParams } from '@notenic/profile/profile-route-params.interface';
 import { UserService } from '@notenic/services/user.service';
-import {FollowUserRequest} from '@notenic/auth/store/auth.actions';
+import { FollowUserRequest } from '@notenic/auth/store/auth.actions';
+import { NoteService } from '@notenic/services/note.service';
 
 @Component({
   selector: 'note-profile',
@@ -18,16 +19,20 @@ import {FollowUserRequest} from '@notenic/auth/store/auth.actions';
 export class ProfileComponent implements OnInit, OnDestroy {
   loggedUser: User;
   user: User;
+  activeTab: NotesTab = 'MyNotes';
+  title = 'Notes';
+  bookmarkedNotes: Note[] = [];
   destroy$ = new Subject<void>();
 
-  constructor(private store: Store<IAuthState>, private route: ActivatedRoute, private userService: UserService) { }
+  constructor(private store: Store<IAuthState>, private route: ActivatedRoute, private userService: UserService,
+              private noteService: NoteService) { }
 
   ngOnInit(): void {
     this.route.params.pipe(takeUntil(this.destroy$)).subscribe((params: IProfileRouteParams) => {
       const username = params.username;
-      this.userService.getUser(username).pipe(first()).subscribe(val => this.user = val);
+      this.userService.getUser(username).pipe(first()).subscribe(val => (this.user = val, this.getBookmarkedNotes(), this.onChangeTypeClick('MyNotes')));
     });
-    this.store.select(getUser).pipe(takeUntil(this.destroy$)).subscribe(val => this.loggedUser = val);
+    this.store.select(getUser).pipe(takeUntil(this.destroy$)).subscribe(val => (this.loggedUser = val, this.getBookmarkedNotes()));
   }
 
   ngOnDestroy(): void {
@@ -39,7 +44,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     const followUser: FollowUser = { userId: this.user.id };
 
     if (this.isFollowing()) {
-      this.user.followers = this.user.followers.filter(u => u.id !== this.loggedUser.id)
+      this.user.followers = this.user.followers.filter(u => u.id !== this.loggedUser.id);
     } else {
       const u = new User();
       u.id = this.loggedUser.id;
@@ -61,5 +66,28 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
 
     return false;
+  }
+
+  onChangeTypeClick(tab: NotesTab): void {
+    this.activeTab = tab;
+    if (tab === 'MyNotes') {
+      this.title = this.user && this.user.notes.length > 0 ?  'Notes' : 'No notes';
+    }
+
+    if (tab === 'Collaborations') {
+      this.title = 'Collaborations';
+    }
+
+    if (tab === 'SavedNotes') {
+      this.title = 'Saved notes';
+    }
+  }
+
+  private getBookmarkedNotes(): void {
+    if (!this.user || !this.loggedUser || this.user.id !== this.loggedUser.id) {
+      return;
+    }
+
+    this.noteService.getBookmarkedNotes().pipe(first()).subscribe(val => this.bookmarkedNotes = val);
   }
 }

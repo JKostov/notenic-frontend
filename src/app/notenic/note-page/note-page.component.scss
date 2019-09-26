@@ -57,8 +57,12 @@
       align-items: center !important;
     }
 
+    &-active {
+      color: #4e4f50;
+    }
+
     &:hover {
-      color: #1b1c1d;
+      color: #121213;
     }
   }
 }

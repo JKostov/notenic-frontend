@@ -1,5 +1,5 @@
-<div class="profile">
-  <div *ngIf="user" class="main ui centered container segment">
+<div *ngIf="user" class="profile">
+  <div class="main ui centered container segment">
     <div class="profile-content">
 
       <div class="description">
@@ -24,9 +24,14 @@
               </div>
             </div>
             <div *ngIf="loggedUser" class="mt-4">
-              <button (click)="onFollowClick()" *ngIf="user.id !== loggedUser?.id" [ngClass]="isFollowing() ? 'basic' : ''" class="ui button primary profile-header-info-name-follow">{{ isFollowing() ? 'Unfollow' : 'Follow' }}</button>
+              <button (click)="onFollowClick()" *ngIf="user.id !== loggedUser?.id"
+                      [ngClass]="isFollowing() ? 'basic' : ''"
+                      class="ui button primary profile-header-info-name-follow">{{ isFollowing() ? 'Unfollow' : 'Follow'
+                }}
+              </button>
             </div>
-            <div><a routerLink="/edit-profile" *ngIf="user.id === loggedUser?.id" class="ui button secondary profile-header-info-edit">Edit profile</a></div>
+            <div><a routerLink="/edit-profile" *ngIf="user.id === loggedUser?.id"
+                    class="ui button secondary profile-header-info-edit">Edit profile</a></div>
             <div *ngIf="user.about" class="profile-header-info-about">{{ user.about }}</div>
           </div>
           <div class="profile-header-divider"></div>
@@ -51,32 +56,27 @@
     </div>
   </div>
 
-  <div *ngFor="let note of user?.notes" class="ui centered card note-card">
-    <div class="image">
-      <img class="note-image" [src]="note.image | noteImage">
-    </div>
-    <div class="content">
-      <a [routerLink]="['/note', user.username, note.title]" class="header">{{ note.title }}</a>
-      <div class="description">
-        <div class="comment">
-          <a class="avatar">
-            <img [src]="user | userImage">
-          </a>
-          <div class="content">
-            <a class="author">{{ user.username }}</a>
-            <span class="date note-date">{{ note.createdAt | date }}</span>
-          </div>
-        </div>
+  <div class="main ui centered container relative">
+    <div class="ui segment list-title">{{ title }}</div>
+    <div *ngIf="loggedUser?.id === user?.id" class="profile-actions ui segment">
+      <div class="mb-4">
+        <button (click)="onChangeTypeClick('MyNotes')" [ngClass]="activeTab === 'MyNotes' ? 'basic' : ''"
+                class="ui button fluid labeled icon secondary"><i class="icon file alternate"></i>My notes
+        </button>
+      </div>
+      <div class="mb-4">
+        <button (click)="onChangeTypeClick('Collaborations')" [ngClass]="activeTab === 'Collaborations' ? 'basic' : ''"
+                class="ui button fluid labeled icon secondary"><i class="icon handshake"></i>Collaborations
+        </button>
+      </div>
+      <div>
+        <button (click)="onChangeTypeClick('SavedNotes')" [ngClass]="activeTab === 'SavedNotes' ? 'basic' : ''"
+                class="ui button secondary icon fluid labeled"><i class="icon bookmark"></i>Saved notes
+        </button>
       </div>
     </div>
-    <div class="extra content">
-      <a>
-        <span><sui-rating class="heart" [ngModel]="1" [maximum]="1"></sui-rating> {{ note.likes ? note.likes.length : 0 }}</span>
-        <span class="note-num-comments"><i class="ui icon comment note-num-comments-icon"></i> {{ note.comments.length }}</span>
-      </a>
-      <div *ngIf="note.tags?.length > 0" class="extra content note-tags">
-        <span class="note-tags-tag" *ngFor="let tag of note.tags; let i = index" >#{{ tag }}</span>
-      </div>
-    </div>
+    <note-profile-notes *ngIf="activeTab === 'MyNotes'" [user]="user" [notes]="user.notes"></note-profile-notes>
+    <note-profile-notes *ngIf="activeTab === 'Collaborations'" [user]="user" [notes]="[]"></note-profile-notes>
+    <note-profile-notes *ngIf="activeTab === 'SavedNotes'" [user]="user" [notes]="bookmarkedNotes"></note-profile-notes>
   </div>
 </div>

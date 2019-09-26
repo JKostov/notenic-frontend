@@ -1,5 +1,5 @@
-import {IAuthState} from './auth.state';
-import {ActionsEnum, AuthActions} from './auth.actions';
+import { IAuthState } from './auth.state';
+import { ActionsEnum, AuthActions } from './auth.actions';
 
 export const initialAuthState: IAuthState = {
   error: null,
@@ -16,6 +16,7 @@ export function authReducer(state: IAuthState = initialAuthState, action: AuthAc
     case ActionsEnum.ForgotPasswordSendMailRequest:
     case ActionsEnum.UpdateUserRequest:
     case ActionsEnum.FollowUserRequest:
+    case ActionsEnum.BookmarkNoteRequest:
     case ActionsEnum.InitLogin: {
       return {
         ...state,
@@ -30,6 +31,7 @@ export function authReducer(state: IAuthState = initialAuthState, action: AuthAc
     case ActionsEnum.ForgotPasswordSendMailFail:
     case ActionsEnum.UpdateUserFail:
     case ActionsEnum.FollowUserFail:
+    case ActionsEnum.BookmarkNoteFail:
     case ActionsEnum.LoginFail: {
       return {
         ...state,
@@ -92,6 +94,24 @@ export function authReducer(state: IAuthState = initialAuthState, action: AuthAc
               ...state.user.following,
               action.payload.user,
             ],
+        }
+      };
+    }
+    case ActionsEnum.BookmarkNoteSuccess: {
+      return {
+        ...state,
+        isLoading: false,
+        user: state.user.bookmarkedNotes.find(n => n.id === action.payload.note.id)
+        ? {
+          ...state.user,
+          bookmarkedNotes: state.user.bookmarkedNotes.filter(n => n.id !== action.payload.note.id),
+        }
+        : {
+          ...state.user,
+          bookmarkedNotes: [
+            ...state.user.bookmarkedNotes,
+            action.payload.note,
+          ],
         }
       };
     }

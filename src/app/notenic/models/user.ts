@@ -17,4 +17,5 @@ export class User {
   image: string;
   following: User[];
   followers: User[];
+  bookmarkedNotes: Note[];
 }

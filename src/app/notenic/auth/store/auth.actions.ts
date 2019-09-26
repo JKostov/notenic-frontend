@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 import { LoginModel, LoginSuccessModel, RegisterModel, ResetPasswordModel, ForgotPasswordModel } from '../models/index';
-import { FollowUser, UpdateUser, User } from '@notenic/models';
+import { BookmarkNote, FollowUser, Note, UpdateUser, User } from '@notenic/models';
 
 export enum ActionsEnum {
   InitLogin = '[Auth] Init login',
@@ -25,6 +25,9 @@ export enum ActionsEnum {
   FollowUserRequest = '[Auth] Follow user request',
   FollowUserSuccess = '[Auth] Follow user success',
   FollowUserFail = '[Auth] Follow user fail',
+  BookmarkNoteRequest = '[Auth] Bookmark note request',
+  BookmarkNoteSuccess = '[Auth] Bookmark note success',
+  BookmarkNoteFail = '[Auth] Bookmark note fail',
 }
 
 export class InitLogin implements Action {
@@ -157,6 +160,24 @@ export class FollowUserFail implements Action {
   constructor(public payload: { error: string }) { }
 }
 
+export class BookmarkNoteRequest implements Action {
+  readonly type = ActionsEnum.BookmarkNoteRequest;
+
+  constructor(public payload: { bookmarkNote: BookmarkNote }) {  }
+}
+
+export class BookmarkNoteSuccess implements Action {
+  readonly type = ActionsEnum.BookmarkNoteSuccess;
+
+  constructor(public payload: { note: Note }) {  }
+}
+
+export class BookmarkNoteFail implements Action {
+  readonly type = ActionsEnum.BookmarkNoteFail;
+
+  constructor(public payload: { error: string }) { }
+}
+
 export type AuthActions = InitLogin
   | LoginSuccess
   | LoginFail
@@ -179,4 +200,7 @@ export type AuthActions = InitLogin
   | FollowUserRequest
   | FollowUserSuccess
   | FollowUserFail
+  | BookmarkNoteRequest
+  | BookmarkNoteSuccess
+  | BookmarkNoteFail
 ;
