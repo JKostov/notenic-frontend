@@ -1,4 +1,5 @@
 import { Gender } from '@notenic/models/types';
+import { Params } from '@angular/router';
 
 export interface UploadImages {
   imageUrls: string[];
@@ -39,4 +40,22 @@ export interface FollowUser {
 
 export interface BookmarkNote {
   noteId: string;
+}
+
+export interface CreateCollaboration {
+  title: string;
+  markdown: string;
+  image: string;
+  public: boolean;
+  tags: string[];
+  collaborators: string[];
+}
+
+export interface UpdateCollaborators {
+  collaborationId: string;
+  collaborators: string[];
+}
+
+export interface ICollaborationRoutePrams extends Params {
+  id: string;
 }

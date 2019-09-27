@@ -1,0 +1,21 @@
+<div *ngFor="let collaboration of collaborations" class="ui centered card note-card">
+  <div class="content">
+    <a [routerLink]="['/collaboration', collaboration.id]" class="header">{{ collaboration.title }}</a>
+    <div class="description">
+      <div class="comment">
+        <a class="avatar">
+          <img [src]="collaboration.user | userImage">
+        </a>
+        <div class="content">
+          <a *ngIf="!user" class="author">{{ collaboration.user.username }}</a>
+          <span class="date note-date">{{ collaboration.createdAt | date }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="extra content">
+    <div *ngIf="collaboration.tags?.length > 0" class="extra content note-tags">
+      <span class="note-tags-tag" *ngFor="let tag of collaboration.tags; let i = index">#{{ tag }}</span>
+    </div>
+  </div>
+</div>

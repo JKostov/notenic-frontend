@@ -6,7 +6,16 @@ const routes: Routes = [
   {
     path: '',
     component: NotenicComponent,
-    pathMatch: 'full'
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('./notenic/notenic.module').then(m => m.NotenicModule),
+      },
+      {
+        path: 'auth',
+        loadChildren: () => import('./notenic/auth/auth.module').then(m => m.AuthModule)
+      }
+    ]
   },
 ];
 

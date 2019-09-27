@@ -8,15 +8,17 @@ import {
   SaveNoteFail,
   LoadNotesRequest,
   LoadNotesSuccess,
-  LoadNotesFail
+  LoadNotesFail, CreateCollaborationRequest, CreateCollaborationSuccess, CreateCollaborationFail
 } from './notenic.actions';
 import { catchError, map, exhaustMap, tap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ValidationHelper } from '@app/shared/helpers/validation.helper';
-import { CreateNote } from '@notenic/models';
+import { CreateCollaboration, CreateNote } from '@notenic/models';
 import { NoteService } from '@notenic/services/note.service';
+import { Collaboration } from '@notenic/models/collaboration';
+import { CollaborationService } from '@notenic/services/collaboration.service';
 
 @Injectable({ providedIn: 'root' })
 export class NotenicEffects {
@@ -52,5 +54,25 @@ export class NotenicEffects {
     tap(() => this.router.navigate(['/'])),
   );
 
-  constructor(private readonly noteService: NoteService, private readonly actions$: Actions, private readonly router: Router) { }
+  @Effect()
+  createCollaborationRequestEffect$: Observable<Action> = this.actions$.pipe(
+    ofType<CreateCollaborationRequest>(ActionsEnum.CreateCollaborationRequest),
+    map((action: CreateCollaborationRequest) => action.payload.createCollaboration),
+    exhaustMap((createCollaboration: CreateCollaboration) =>
+      this.collaborationService.createCollaboration(createCollaboration).pipe(
+        map((collaboration: Collaboration) => (new CreateCollaborationSuccess({ collaboration }))),
+        catchError((response: HttpErrorResponse) => of(new CreateCollaborationFail({
+          error: ValidationHelper.extractValidationMessageFromError(response.error.message) })))
+      )
+    )
+  );
+
+  @Effect({ dispatch: false})
+  createCollaborationSuccessEffect$ = this.actions$.pipe(ofType<CreateCollaborationSuccess>(ActionsEnum.CreateCollaborationSuccess),
+    map((action: CreateCollaborationSuccess) => action.payload.collaboration),
+    tap((collaboration: Collaboration) => this.router.navigate(['/collaboration', collaboration.id])),
+  );
+
+  constructor(private readonly noteService: NoteService, private collaborationService: CollaborationService,
+              private readonly actions$: Actions, private readonly router: Router) { }
 }

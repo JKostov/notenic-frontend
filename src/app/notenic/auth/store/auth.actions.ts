@@ -5,6 +5,7 @@ import { BookmarkNote, FollowUser, Note, UpdateUser, User } from '@notenic/model
 export enum ActionsEnum {
   InitLogin = '[Auth] Init login',
   LoginSuccess = '[Auth] Login success',
+  LoginFromStorage = '[Auth] Login from storage',
   LoginFail = '[Auth] Login fail',
   InitRegister = '[Auth] Init register',
   RegisterSuccess = '[Auth] Register success',
@@ -38,6 +39,12 @@ export class InitLogin implements Action {
 
 export class LoginSuccess implements Action {
   readonly type = ActionsEnum.LoginSuccess;
+
+  constructor(public payload: { loginSuccessModel: LoginSuccessModel }) { }
+}
+
+export class LoginFromStorage implements Action {
+  readonly type = ActionsEnum.LoginFromStorage;
 
   constructor(public payload: { loginSuccessModel: LoginSuccessModel }) { }
 }
@@ -180,6 +187,7 @@ export class BookmarkNoteFail implements Action {
 
 export type AuthActions = InitLogin
   | LoginSuccess
+  | LoginFromStorage
   | LoginFail
   | InitRegister
   | RegisterSuccess

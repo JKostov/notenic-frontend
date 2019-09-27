@@ -12,7 +12,7 @@ export class ProfileNotesComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
+  ngOnInit(): void {
   }
 
 }

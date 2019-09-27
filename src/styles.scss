@@ -31,3 +31,16 @@
 .margin-b-4 {
   margin-bottom: 1rem !important;
 }
+
+sui-dimmer > div {
+  width: 100%;
+  height: 100%;
+}
+
+sui-dimmer > div > div {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

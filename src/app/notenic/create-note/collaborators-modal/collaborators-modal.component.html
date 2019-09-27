@@ -1,0 +1,20 @@
+<div class="header">{{ modal.context.title }} ({{ collaborators.length }}/{{ modal.context.max }})</div>
+<div class="content">
+  <div *ngIf="loading" class="ui">
+    <div class="ui active inverted dimmer">
+      <div class="ui text loader">Loading</div>
+    </div>
+  </div>
+  <div class="ui middle aligned selection list" *ngFor="let user of users">
+    <div (click)="addRemoveCollaborator(user)" [ngClass]="isCollaborator(user) ? 'collaborator-selected' : 'collaborator-not-selected'" class="item">
+      <img class="ui avatar image" [src]="user | userImage">
+      <div class="content">
+        <div class="header">{{ user.username }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="actions">
+  <button class="ui button secondary basic" (click)="modal.deny(undefined)">Cancel</button>
+  <button class="ui button primary" (click)="modal.approve(collaborators)" autofocus>OK</button>
+</div>

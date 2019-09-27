@@ -76,7 +76,7 @@
       </div>
     </div>
     <note-profile-notes *ngIf="activeTab === 'MyNotes'" [user]="user" [notes]="user.notes"></note-profile-notes>
-    <note-profile-notes *ngIf="activeTab === 'Collaborations'" [user]="user" [notes]="[]"></note-profile-notes>
-    <note-profile-notes *ngIf="activeTab === 'SavedNotes'" [user]="user" [notes]="bookmarkedNotes"></note-profile-notes>
+    <note-profile-collaborations *ngIf="activeTab === 'Collaborations'" [collaborations]="collaborations"></note-profile-collaborations>
+    <note-profile-notes *ngIf="activeTab === 'SavedNotes'" [user]="null" [notes]="bookmarkedNotes"></note-profile-notes>
   </div>
 </div>

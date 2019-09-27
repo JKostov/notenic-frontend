@@ -6,7 +6,8 @@ import { CreateNoteComponent } from '@notenic/create-note/create-note.component'
 import { LoggedGuard } from '@notenic/guards/logged.guard';
 import { NotePageComponent } from '@notenic/note-page/note-page.component';
 import { ProfileComponent } from '@notenic/profile/profile.component';
-import {EditProfileComponent} from '@notenic/edit-profile/edit-profile.component';
+import { EditProfileComponent } from '@notenic/edit-profile/edit-profile.component';
+import { CollaborationPageComponent } from '@notenic/collaboration-page/collaboration-page.component';
 
 const routes: Routes = [
   {
@@ -22,10 +23,14 @@ const routes: Routes = [
         component: NotePageComponent,
       },
       {
+        path: 'collaboration/:id',
+        component: CollaborationPageComponent,
+        canActivate: [LoggedGuard],
+      },
+      {
         path: 'note/create',
         component: CreateNoteComponent,
         canActivate: [LoggedGuard],
-        canLoad: [LoggedGuard]
       },
       {
         path: 'profile/:username',
@@ -35,7 +40,6 @@ const routes: Routes = [
         path: 'edit-profile',
         component: EditProfileComponent,
         canActivate: [LoggedGuard],
-        canLoad: [LoggedGuard]
       },
     ]
   },

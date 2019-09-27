@@ -86,15 +86,19 @@
 
           <div class="ui inverted divider"></div>
 
-          <button class="ui mini fluid button icon labeled" (click)="onInviteCollaboratorsClicked()"><i class="icon handshake"></i>Invite collaborators</button>
+          <button *ngIf="user?.id === collaboration?.user.id" class="ui mini fluid button icon labeled" (click)="onInviteCollaboratorsClicked()"><i class="icon handshake"></i>Invite collaborators</button>
 
           <div class="ui inverted mini fluid input">
-            <div class="ui tags-container">
-              <div *ngFor="let tag of tags" class="tags-container-tag">
-                {{ tag }}
-                <i (click)="removeTag(tag)" class="icon close alternate tags-container-tag-icon"></i>
+            <div class="ui collaborators-container">
+              <div class="ui middle aligned divided list" *ngFor="let collaborator of collaboration?.collaborators">
+                <div class="collaborator-item" [ngClass]="user.id === collaborator.id ? 'collaborator-item-active' : ''">
+                  <img class="ui avatar image" [src]="collaborator | userImage">
+                  <div class="content">
+                    <div class="collaborator-item-header">{{ collaborator.username }}</div>
+                  </div>
+                </div>
               </div>
-              <div *ngIf="tags.length === 0" class="tags-container-empty">
+              <div *ngIf="collaboration?.collaborators.length === 0" class="tags-container-empty">
                 No collaborators
               </div>
             </div>
@@ -102,7 +106,7 @@
 
           <div class="ui inverted divider"></div>
 
-          <button (click)="publishNote()" class="ui small primary button">
+          <button (click)="publishCollaboration()" class="ui small primary button">
             Publish
           </button>
         </div>
@@ -111,8 +115,8 @@
     <sui-sidebar-sibling>
       <div class="markdown-editor__container">
         <div class="markdown-editor__container-header">
-            <div class="markdown-editor__container-header-item">Markdown</div>
-            <div class="markdown-editor__container-header-item">Preview</div>
+          <div class="markdown-editor__container-header-item">Markdown</div>
+          <div class="markdown-editor__container-header-item">Preview</div>
           <div>
             <button name="publish" (click)="sidebar.toggle()" class="ui icon button markdown-editor__container-header-button">
               <i class="icon settings"></i>
@@ -123,7 +127,7 @@
         <div class="ui divider"></div>
 
         <div class="markdown-editor__container-markdown">
-          <textarea name="markdown" [formControl]="markDownFormControl"class="markdown-editor__container-markdown-variable-textarea"></textarea>
+          <textarea name="markdown" [formControl]="markDownFormControl" class="markdown-editor__container-markdown-variable-textarea"></textarea>
           <markdown lineNumbers class="markdown-editor__container-markdown-variable-binding"
                     [data]="markDownFormControl.value"></markdown>
         </div>

@@ -28,4 +28,10 @@ export class UserService {
 
     return this.http.post<User>(url, followUser);
   }
+
+  getFollowing(): Observable<User[]> {
+    const url = `${environment.apiUrl}/users/user/following`;
+
+    return this.http.get<User[]>(url);
+  }
 }

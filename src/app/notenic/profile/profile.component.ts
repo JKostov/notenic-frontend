@@ -10,6 +10,8 @@ import { IProfileRouteParams } from '@notenic/profile/profile-route-params.inter
 import { UserService } from '@notenic/services/user.service';
 import { FollowUserRequest } from '@notenic/auth/store/auth.actions';
 import { NoteService } from '@notenic/services/note.service';
+import { Collaboration } from '@notenic/models/collaboration';
+import { CollaborationService } from '@notenic/services/collaboration.service';
 
 @Component({
   selector: 'note-profile',
@@ -22,17 +24,20 @@ export class ProfileComponent implements OnInit, OnDestroy {
   activeTab: NotesTab = 'MyNotes';
   title = 'Notes';
   bookmarkedNotes: Note[] = [];
+  collaborations: Collaboration[] = [];
   destroy$ = new Subject<void>();
 
   constructor(private store: Store<IAuthState>, private route: ActivatedRoute, private userService: UserService,
-              private noteService: NoteService) { }
+              private noteService: NoteService, private collaborationService: CollaborationService) { }
 
   ngOnInit(): void {
     this.route.params.pipe(takeUntil(this.destroy$)).subscribe((params: IProfileRouteParams) => {
       const username = params.username;
-      this.userService.getUser(username).pipe(first()).subscribe(val => (this.user = val, this.getBookmarkedNotes(), this.onChangeTypeClick('MyNotes')));
+      this.userService.getUser(username).pipe(first()).subscribe(val => (this.user = val, this.getBookmarkedNotesAndCollaborations(),
+        this.onChangeTypeClick('MyNotes')));
     });
-    this.store.select(getUser).pipe(takeUntil(this.destroy$)).subscribe(val => (this.loggedUser = val, this.getBookmarkedNotes()));
+    this.store.select(getUser).pipe(takeUntil(this.destroy$)).subscribe(val => (this.loggedUser = val,
+      this.getBookmarkedNotesAndCollaborations()));
   }
 
   ngOnDestroy(): void {
@@ -55,7 +60,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   isFollowing(): boolean {
-    if (this.loggedUser && this.user) {
+    if (this.loggedUser && this.loggedUser.following && this.user) {
       const res = this.loggedUser.following.find(u => u.id === this.user.id);
 
       if (res) {
@@ -79,15 +84,16 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
 
     if (tab === 'SavedNotes') {
-      this.title = 'Saved notes';
+      this.title = this.user && this.bookmarkedNotes.length > 0 ?  'Saved notes' : 'No saved notes';
     }
   }
 
-  private getBookmarkedNotes(): void {
+  private getBookmarkedNotesAndCollaborations(): void {
     if (!this.user || !this.loggedUser || this.user.id !== this.loggedUser.id) {
       return;
     }
 
     this.noteService.getBookmarkedNotes().pipe(first()).subscribe(val => this.bookmarkedNotes = val);
+    this.collaborationService.getCollaborations().pipe(first()).subscribe(val => this.collaborations = val);
   }
 }

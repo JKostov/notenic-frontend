@@ -3,7 +3,7 @@ import { select, Store } from '@ngrx/store';
 import { getUser } from '@notenic/./auth/store/auth.selectors';
 import { takeUntil } from 'rxjs/operators';
 import { IAuthState } from '@notenic/./auth/store/auth.state';
-import { LoginSuccess, Logout } from '@notenic/./auth/store/auth.actions';
+import { LoginFromStorage, Logout } from '@notenic/./auth/store/auth.actions';
 import { Subject } from 'rxjs';
 import { User } from '@notenic/models';
 import { AuthService } from '@notenic/services/auth/auth.service';
@@ -24,7 +24,7 @@ export class NotenicComponent implements OnInit, OnDestroy {
     const user = AuthService.getUserFromLocalStorage();
     const token = AuthService.getValidTokenFromLocalStorageOrClear();
     if (token) {
-      this.store.dispatch(new LoginSuccess({ loginSuccessModel: { token, user } }));
+      this.store.dispatch(new LoginFromStorage({ loginSuccessModel: { token, user } }));
     }
     this.store.pipe(select(getUser), takeUntil(this.destroy$)).subscribe(val => this.user = val);
 

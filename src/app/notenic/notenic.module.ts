@@ -16,6 +16,9 @@ import { ProfileComponent } from './profile/profile.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { ImageCropperModule } from 'ngx-img-cropper';
 import { ProfileNotesComponent } from './profile/profile-notes/profile-notes.component';
+import { CollaboratorsModalComponent } from './create-note/collaborators-modal/collaborators-modal.component';
+import { CollaborationPageComponent } from './collaboration-page/collaboration-page.component';
+import { ProfileCollaborationsComponent } from './profile/profile-collaborations/profile-collaborations.component';
 
 @NgModule({
   imports: [
@@ -35,6 +38,10 @@ import { ProfileNotesComponent } from './profile/profile-notes/profile-notes.com
     ProfileComponent,
     EditProfileComponent,
     ProfileNotesComponent,
-  ]
+    CollaboratorsModalComponent,
+    CollaborationPageComponent,
+    ProfileCollaborationsComponent,
+  ],
+  entryComponents: [CollaboratorsModalComponent],
 })
 export class NotenicModule { }

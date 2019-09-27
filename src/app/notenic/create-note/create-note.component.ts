@@ -1,11 +1,13 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import {Form, FormBuilder, FormControl, Validators} from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { NoteService } from '@notenic/services/note.service';
 import { first } from 'rxjs/operators';
-import { CreateNote, DeleteImage, UploadImages } from '@notenic/models';
+import { CreateCollaboration, CreateNote, DeleteImage, UploadImages, User } from '@notenic/models';
 import { Store } from '@ngrx/store';
 import { INotenicState } from '@notenic/store/notenic.state';
-import { SaveNoteRequest } from '@notenic/store/notenic.actions';
+import { CreateCollaborationRequest, SaveNoteRequest } from '@notenic/store/notenic.actions';
+import { SuiModalService } from 'ng2-semantic-ui';
+import { CollaboratorsModal } from '@notenic/create-note/collaborators-modal/collaborators-modal';
 
 @Component({
   selector: 'note-create-note',
@@ -23,9 +25,10 @@ export class CreateNoteComponent implements OnInit {
   imgSrc: string = null;
   img: string = null;
   tags: string[] = [];
+  error: string;
 
-  constructor(private readonly fb: FormBuilder, private readonly noteService: NoteService, private readonly store: Store<INotenicState>) {
-  }
+  constructor(private readonly fb: FormBuilder, private readonly noteService: NoteService, private readonly store: Store<INotenicState>,
+              private modalService: SuiModalService) { }
 
   ngOnInit(): void {
     this.markDownFormControl = this.fb.control('## Subtitle', Validators.required);
@@ -129,5 +132,37 @@ export class CreateNoteComponent implements OnInit {
       default:
         return false;
     }
+  }
+
+  onInviteCollaboratorsClicked(): void {
+    if (!this.titleFormControl.value) {
+      this.error = 'Title is required.';
+      return;
+    }
+    this.modalService
+      .open(new CollaboratorsModal('Choose collaborators', 5, [], 'mini'))
+      .onApprove((collaborators: User[]) => this.onChosenCollaborators(collaborators))
+      .onDeny(() => console.log('cancel'));
+  }
+
+  resetError(): void {
+    this.error = null;
+  }
+
+  private onChosenCollaborators(collaborators: User[]): void {
+    if (!collaborators || collaborators.length === 0) {
+      return;
+    }
+
+    const createCollaboration: CreateCollaboration = {
+      title: this.titleFormControl.value,
+      markdown: this.markDownFormControl.value,
+      image: this.img,
+      public: this.getBool(this.publicFormControl.value),
+      tags: this.tags,
+      collaborators: collaborators.map(c => c.id),
+    };
+
+    this.store.dispatch(new CreateCollaborationRequest({ createCollaboration }));
   }
 }

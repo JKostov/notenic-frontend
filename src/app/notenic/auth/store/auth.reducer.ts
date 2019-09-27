@@ -1,5 +1,5 @@
-import { IAuthState } from './auth.state';
-import { ActionsEnum, AuthActions } from './auth.actions';
+import {IAuthState} from './auth.state';
+import {ActionsEnum, AuthActions} from './auth.actions';
 
 export const initialAuthState: IAuthState = {
   error: null,
@@ -40,6 +40,7 @@ export function authReducer(state: IAuthState = initialAuthState, action: AuthAc
         isLoading: false,
       };
     }
+    case ActionsEnum.LoginFromStorage:
     case ActionsEnum.LoginSuccess: {
       return {
         ...state,
