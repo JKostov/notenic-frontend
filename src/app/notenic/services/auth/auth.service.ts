@@ -22,11 +22,7 @@ export class AuthService {
 
     const jwtService = new JwtHelperService();
     const expire = jwtService.getTokenExpirationDate(loginSuccessModel.token);
-    if (environment.production) {
-      CookieHelper.set(this.AuthToken, loginSuccessModel.token, expire, environment.domain, environment.secureCookie);
-    } else {
-      CookieHelper.set(this.AuthToken, loginSuccessModel.token, expire);
-    }
+    CookieHelper.set(this.AuthToken, loginSuccessModel.token, expire);
   }
 
   static updateUserInLocalStorage(user: User): void {
@@ -36,11 +32,7 @@ export class AuthService {
   static clearLocalStorage(): void {
     localStorage.removeItem(AuthService.AuthToken);
     localStorage.removeItem(AuthService.AuthUser);
-    if (environment.production) {
-      CookieHelper.delete(this.AuthToken, environment.domain);
-    } else {
-      CookieHelper.delete(this.AuthToken);
-    }
+    CookieHelper.delete(this.AuthToken);
   }
 
   static getUserFromLocalStorage(): User {
