@@ -4,5 +4,5 @@ export const environment = {
   secureCookie: true,
   apiUrl: 'https://www.notenic.com/api',
   filesUrl: 'https://www.notenic.com/api',
-  notificationsUrl: 'https://www.notenic.com/notifications',
+  notificationsUrl: 'https://www.notenic.com',
 };
