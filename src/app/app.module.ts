@@ -8,6 +8,7 @@ import { NotenicModule } from '@notenic/notenic.module';
 import { MarkdownModule, MarkedOptions } from 'ngx-markdown';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { environment } from 'environments/environment';
+import { CookieService } from 'ngx-cookie-service';
 
 const config: SocketIoConfig = { url: environment.notificationsUrl, options: {} };
 
@@ -33,6 +34,7 @@ const config: SocketIoConfig = { url: environment.notificationsUrl, options: {} 
     NotenicModule,
     AppRoutingModule,
   ],
+  providers: [CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

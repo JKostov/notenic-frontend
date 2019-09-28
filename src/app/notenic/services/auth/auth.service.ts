@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { ForgotPasswordModel, LoginModel, LoginSuccessModel, RegisterModel, ResetPasswordModel } from '@notenic/auth/models/index';
 import { User } from '@notenic/models';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { CookieHelper } from '@notenic/helpers/cookie.helper';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,39 +14,39 @@ export class AuthService {
   public static AuthToken = 'AUTH_TOKEN';
   public static AuthUser = 'AUTH_USER';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private cookieService: CookieService) { }
 
-  static saveUserInLocalStorage(loginSuccessModel: LoginSuccessModel): void {
+  public saveUserInLocalStorage(loginSuccessModel: LoginSuccessModel): void {
     localStorage.setItem(AuthService.AuthToken, loginSuccessModel.token);
     localStorage.setItem(AuthService.AuthUser, JSON.stringify(loginSuccessModel.user));
 
     const jwtService = new JwtHelperService();
     const expire = jwtService.getTokenExpirationDate(loginSuccessModel.token);
-    CookieHelper.set(this.AuthToken, loginSuccessModel.token, expire);
+    this.cookieService.set(AuthService.AuthToken, loginSuccessModel.token, expire);
   }
 
-  static updateUserInLocalStorage(user: User): void {
+  public updateUserInLocalStorage(user: User): void {
     localStorage.setItem(AuthService.AuthUser, JSON.stringify(user));
   }
 
-  static clearLocalStorage(): void {
+  public clearLocalStorage(): void {
     localStorage.removeItem(AuthService.AuthToken);
     localStorage.removeItem(AuthService.AuthUser);
-    CookieHelper.delete(this.AuthToken);
+    this.cookieService.delete(AuthService.AuthToken);
   }
 
-  static getUserFromLocalStorage(): User {
+  public getUserFromLocalStorage(): User {
     return JSON.parse(localStorage.getItem(AuthService.AuthUser));
   }
 
-  static getValidTokenFromLocalStorageOrClear(): string {
+  public getValidTokenFromLocalStorageOrClear(): string {
     const jwtService = new JwtHelperService();
     const token = localStorage.getItem(AuthService.AuthToken);
 
     const isExpired = jwtService.isTokenExpired(token);
 
     if (isExpired) {
-      AuthService.clearLocalStorage();
+      this.clearLocalStorage();
       return null;
     }
     return token;

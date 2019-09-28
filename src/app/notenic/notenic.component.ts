@@ -18,11 +18,11 @@ export class NotenicComponent implements OnInit, OnDestroy {
   user: User;
   destroy$ = new Subject<void>();
 
-  constructor(private readonly store: Store<IAuthState>) { }
+  constructor(private authService: AuthService, private readonly store: Store<IAuthState>) { }
 
   ngOnInit() {
-    const user = AuthService.getUserFromLocalStorage();
-    const token = AuthService.getValidTokenFromLocalStorageOrClear();
+    const user = this.authService.getUserFromLocalStorage();
+    const token = this.authService.getValidTokenFromLocalStorageOrClear();
     if (token) {
       this.store.dispatch(new LoginFromStorage({ loginSuccessModel: { token, user } }));
     }

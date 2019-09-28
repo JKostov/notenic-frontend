@@ -34,7 +34,7 @@ export class AuthEffects {
     ofType<authActions.LoginSuccess>(authActions.ActionsEnum.LoginSuccess),
     map((action: authActions.LoginSuccess) => action.payload.loginSuccessModel),
     tap(loginSuccessModel => this.router.navigate(['/'])
-      && AuthService.saveUserInLocalStorage(loginSuccessModel)),
+      && this.authService.saveUserInLocalStorage(loginSuccessModel)),
   );
 
   @Effect()
@@ -106,7 +106,7 @@ export class AuthEffects {
   logoutEffect$: Observable<Action> = this.actions$.pipe(
     ofType<authActions.Logout>(authActions.ActionsEnum.Logout),
     tap(() => {
-      AuthService.clearLocalStorage();
+      this.authService.clearLocalStorage();
       this.router.navigate(['/']);
     })
   );
@@ -129,7 +129,7 @@ export class AuthEffects {
   updateUserSuccessEffect$ = this.actions$.pipe(
     ofType<authActions.UpdateUserSuccess>(authActions.ActionsEnum.UpdateUserSuccess),
     map((action: authActions.UpdateUserSuccess) => action.payload.user),
-    tap(user => AuthService.updateUserInLocalStorage(user)),
+    tap(user => this.authService.updateUserInLocalStorage(user)),
   );
 
   @Effect()
@@ -151,13 +151,13 @@ export class AuthEffects {
     ofType<authActions.FollowUserSuccess>(authActions.ActionsEnum.FollowUserSuccess),
     map((action: authActions.FollowUserSuccess) => action.payload.user),
     tap(user => {
-      const u = AuthService.getUserFromLocalStorage();
+      const u = this.authService.getUserFromLocalStorage();
       if (u.following.find(usr => usr.id === user.id)) {
         u.following = u.following.filter(usr => usr.id !== user.id);
       } else {
         u.following.push(user);
       }
-      AuthService.updateUserInLocalStorage(u);
+      this.authService.updateUserInLocalStorage(u);
     }),
   );
 
@@ -180,13 +180,13 @@ export class AuthEffects {
     ofType<authActions.BookmarkNoteSuccess>(authActions.ActionsEnum.BookmarkNoteSuccess),
     map((action: authActions.BookmarkNoteSuccess) => action.payload.note),
     tap(note => {
-      const u = AuthService.getUserFromLocalStorage();
+      const u = this.authService.getUserFromLocalStorage();
       if (u.bookmarkedNotes.find(n => n.id === note.id)) {
         u.bookmarkedNotes = u.bookmarkedNotes.filter(n => n.id !== note.id);
       } else {
         u.bookmarkedNotes.push(note);
       }
-      AuthService.updateUserInLocalStorage(u);
+      this.authService.updateUserInLocalStorage(u);
     }),
   );
 
