@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  domain: 'notenic.com',
+  domain: '.notenic.com',
   secureCookie: true,
   apiUrl: 'https://www.notenic.com/api',
   filesUrl: 'https://www.notenic.com/api',
