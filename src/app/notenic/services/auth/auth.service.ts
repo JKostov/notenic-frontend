@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { ForgotPasswordModel, LoginModel, LoginSuccessModel, RegisterModel, ResetPasswordModel } from '@notenic/auth/models/index';
 import { User } from '@notenic/models';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { CookieHelper } from '@notenic/helpers/cookie.helper';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,14 @@ export class AuthService {
   static saveUserInLocalStorage(loginSuccessModel: LoginSuccessModel): void {
     localStorage.setItem(AuthService.AuthToken, loginSuccessModel.token);
     localStorage.setItem(AuthService.AuthUser, JSON.stringify(loginSuccessModel.user));
+
+    const jwtService = new JwtHelperService();
+    const expire = jwtService.getTokenExpirationDate(loginSuccessModel.token);
+    if (environment.production) {
+      CookieHelper.set(this.AuthToken, loginSuccessModel.token, expire, environment.domain, environment.secureCookie);
+    } else {
+      CookieHelper.set(this.AuthToken, loginSuccessModel.token, expire);
+    }
   }
 
   static updateUserInLocalStorage(user: User): void {
@@ -27,6 +36,11 @@ export class AuthService {
   static clearLocalStorage(): void {
     localStorage.removeItem(AuthService.AuthToken);
     localStorage.removeItem(AuthService.AuthUser);
+    if (environment.production) {
+      CookieHelper.delete(this.AuthToken, environment.domain);
+    } else {
+      CookieHelper.delete(this.AuthToken);
+    }
   }
 
   static getUserFromLocalStorage(): User {

@@ -1,5 +1,6 @@
 import { Gender } from '@notenic/models/types';
 import { Params } from '@angular/router';
+import { Doc } from 'automerge';
 
 export interface UploadImages {
   imageUrls: string[];
@@ -58,4 +59,14 @@ export interface UpdateCollaborators {
 
 export interface ICollaborationRoutePrams extends Params {
   id: string;
+}
+
+export interface CollaborationUpdate {
+  id: string;
+  update: any;
+}
+
+export interface CollaborationDocData {
+  markdown: string;
+  title: string;
 }

@@ -91,7 +91,7 @@
           <div class="ui inverted mini fluid input">
             <div class="ui collaborators-container">
               <div class="ui middle aligned divided list" *ngFor="let collaborator of collaboration?.collaborators">
-                <div class="collaborator-item" [ngClass]="user.id === collaborator.id ? 'collaborator-item-active' : ''">
+                <div class="collaborator-item" [ngClass]="isCollaboratorActive(collaborator) ? 'collaborator-item-active' : ''">
                   <img class="ui avatar image" [src]="collaborator | userImage">
                   <div class="content">
                     <div class="collaborator-item-header">{{ collaborator.username }}</div>
@@ -108,6 +108,9 @@
 
           <button (click)="publishCollaboration()" class="ui small primary button">
             Publish
+          </button>
+          <button (click)="onSaveClick()" class="ui small primary button">
+            Save
           </button>
         </div>
       </div>

@@ -9,6 +9,7 @@ import { environment } from 'environments/environment';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { TokenInterceptor } from '@app/core/interceptors/token.interceptor';
+import { SocketModule } from '@app/core/socket/socket.module';
 
 const reducers = {};
 
@@ -16,6 +17,7 @@ const effects = [];
 
 @NgModule({
   imports: [
+    SocketModule,
     CommonModule,
     BrowserModule,
     BrowserAnimationsModule,
