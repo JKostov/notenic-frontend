@@ -34,4 +34,10 @@ export class UserService {
 
     return this.http.get<User[]>(url);
   }
+
+  getUserImageData(userId: string): Observable<User> {
+    const url = `${environment.apiUrl}/users/${userId}/image-data`;
+
+    return this.http.get<User>(url);
+  }
 }

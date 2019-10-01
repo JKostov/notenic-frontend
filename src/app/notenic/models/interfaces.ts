@@ -69,4 +69,7 @@ export interface CollaborationUpdate {
 export interface CollaborationDocData {
   markdown: string;
   title: string;
+  public: boolean;
+  tags: string[];
+  image: string;
 }

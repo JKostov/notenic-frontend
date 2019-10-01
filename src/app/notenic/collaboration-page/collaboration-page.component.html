@@ -20,25 +20,25 @@
           <div class="ui inverted divider"></div>
 
 
-          <div>
-            <div class="type-radio">
-              <input [formControl]="publicFormControl" value="true" [checked]="true" name="type" type="radio">
-              <div class="type-radio__text">
-                <i class="icon file alternate outline type-radio__text-icon"></i>
-                <label class="ui inverted">Public</label>
-              </div>
-            </div>
+          <!--<div>-->
+            <!--<div class="type-radio">-->
+              <!--<input [formControl]="publicFormControl" value="true" [checked]="true" name="type" type="radio">-->
+              <!--<div class="type-radio__text">-->
+                <!--<i class="icon file alternate outline type-radio__text-icon"></i>-->
+                <!--<label class="ui inverted">Public</label>-->
+              <!--</div>-->
+            <!--</div>-->
 
-            <div class="type-radio">
-              <input [formControl]="publicFormControl" value="false" name="type" type="radio">
-              <div class="type-radio__text">
-                <i class="icon lock alternate type-radio__text-icon"></i>
-                <label class="ui inverted">Private</label>
-              </div>
-            </div>
-          </div>
+            <!--<div class="type-radio">-->
+              <!--<input [formControl]="publicFormControl" value="false" name="type" type="radio">-->
+              <!--<div class="type-radio__text">-->
+                <!--<i class="icon lock alternate type-radio__text-icon"></i>-->
+                <!--<label class="ui inverted">Private</label>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
 
-          <div class="ui inverted divider"></div>
+          <!--<div class="ui inverted divider"></div>-->
 
           <div class="ui right labeled left mini fluid icon input">
             <i class="tags icon"></i>
@@ -109,9 +109,6 @@
           <button (click)="publishCollaboration()" class="ui small primary button">
             Publish
           </button>
-          <button (click)="onSaveClick()" class="ui small primary button">
-            Save
-          </button>
         </div>
       </div>
     </sui-sidebar>
@@ -121,6 +118,9 @@
           <div class="markdown-editor__container-header-item">Markdown</div>
           <div class="markdown-editor__container-header-item">Preview</div>
           <div>
+            <button *ngIf="user?.id === collaboration?.user.id" name="publish" (click)="onSaveClick()" class="ui icon button markdown-editor__container-header-button-save">
+              <i class="icon save"></i>
+            </button>
             <button name="publish" (click)="sidebar.toggle()" class="ui icon button markdown-editor__container-header-button">
               <i class="icon settings"></i>
             </button>

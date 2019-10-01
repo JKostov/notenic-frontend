@@ -19,6 +19,9 @@ import { ProfileNotesComponent } from './profile/profile-notes/profile-notes.com
 import { CollaboratorsModalComponent } from './create-note/collaborators-modal/collaborators-modal.component';
 import { CollaborationPageComponent } from './collaboration-page/collaboration-page.component';
 import { ProfileCollaborationsComponent } from './profile/profile-collaborations/profile-collaborations.component';
+import { ShowCollaboratorsModalComponent } from './note-page/show-collaborators-modal/show-collaborators-modal.component';
+import { NotificationsComponent } from './notifications/notifications.component';
+import { ItemComponent } from './notifications/item/item.component';
 
 @NgModule({
   imports: [
@@ -41,7 +44,13 @@ import { ProfileCollaborationsComponent } from './profile/profile-collaborations
     CollaboratorsModalComponent,
     CollaborationPageComponent,
     ProfileCollaborationsComponent,
+    ShowCollaboratorsModalComponent,
+    NotificationsComponent,
+    ItemComponent,
   ],
-  entryComponents: [CollaboratorsModalComponent],
+  entryComponents: [
+    CollaboratorsModalComponent,
+    ShowCollaboratorsModalComponent,
+  ],
 })
 export class NotenicModule { }

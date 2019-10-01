@@ -1,0 +1,12 @@
+  <div *ngIf="user" class="ui feed">
+    <div class="event">
+      <div class="label">
+        <img [routerLink]="['/profile', user.username]" [src]="user | userImage">
+      </div>
+      <div class="content">
+        <a [routerLink]="['/profile', user.username]">{{ user.username }}</a>
+        {{ notification.action }}
+        <a *ngIf="notification.note" [routerLink]="['/note', notification.note.username, notification.note.title]">{{ notification.note.title }}</a>
+      </div>
+    </div>
+  </div>

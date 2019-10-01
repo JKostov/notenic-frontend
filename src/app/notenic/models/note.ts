@@ -10,6 +10,7 @@ export class Note {
   createdAt: Date;
   updatedAt: Date;
   tags: string[];
+  collaborators: string[];
   comments: Comment[];
   likes: string[];
 }

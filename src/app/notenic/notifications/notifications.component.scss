@@ -1,0 +1,24 @@
+
+.notifications-dropdown {
+  display: flex;
+  height: 100%;
+  border-left: 1px solid rgba(255,255,255,.08);
+
+  &-items {
+    max-height: 500px !important;
+    overflow: auto;
+  }
+}
+
+.new-notifications {
+  width: 10px;
+  height: 10px;
+  background-color: #54a3ff;
+  border-radius: 500rem;
+  display: inline-block;
+  position: absolute;
+  top: 13px;
+  left: 26px;
+}
+
+

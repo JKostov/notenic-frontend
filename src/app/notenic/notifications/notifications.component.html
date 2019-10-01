@@ -1,0 +1,7 @@
+<div class="ui dropdown notifications-dropdown" suiDropdown [isOpen]="isOpen" (isOpenChange)="onChangeDropDown($event)">
+  <a class="item"><i class="ui icon bell"><span *ngIf="newNotifications" class="new-notifications"></span></i></a>
+
+  <div class="menu notifications-dropdown-items" suiDropdownMenu>
+    <div *ngFor="let not of notifications" class="item notifications-dropdown-items-item" [ngClass]="not.seen ? '' : 'notifications-dropdown-items-item-active'"  note-item [notification]="not"></div>
+  </div>
+</div>

@@ -35,6 +35,7 @@
     "ngx-cookie-service": "^2.2.0",
     "ngx-img-cropper": "^8.0.1",
     "ngx-markdown": "^8.1.0",
+    "ngx-perfect-scrollbar": "^8.0.0",
     "ngx-socket-io": "^3.0.1",
     "ngx-spinner": "^8.0.3",
     "rxjs": "~6.5.2",

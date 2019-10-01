@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { CollaborationSocket } from '@app/core/socket/collaboration-socket.service';
 import { Observable, Subject } from 'rxjs';
 import { CollaborationUpdate } from '@notenic/models';
+import { CollaborationSocket } from '@app/core/socket/collaboration-socket';
 
 @Injectable({
   providedIn: 'root'
@@ -9,10 +9,6 @@ import { CollaborationUpdate } from '@notenic/models';
 export class CollaborationSocketService {
 
   constructor(private socket: CollaborationSocket) { }
-
-  sendMessage(msg: string) {
-    this.socket.emit('message', msg);
-  }
 
   joinRoom(room: string): Observable<string[]> {
     const subject = new Subject<string[]>();

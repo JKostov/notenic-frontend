@@ -12,9 +12,14 @@
             <a class="avatar">
               <img class="avatar-image" [src]="note.user | userImage">
             </a>
-            <div class="content">
-              <a class="author">{{ note.user.username }}</a>
-              <span class="date">{{ note.createdAt | date }}</span>
+            <div class="content note-info-data">
+              <div>
+                <a class="author">{{ note.user.username }}</a>
+                <span class="date">{{ note.createdAt | date }}</span>
+              </div>
+              <div *ngIf="note.collaborators?.length > 0">
+                <div><i class="ui icon users"></i><a class="collaborators-link" type="button" (click)="onShowCollaboratorsClick()">{{ note.collaborators.length }} collaborators</a></div>
+              </div>
             </div>
             <div class="note-actions">
               <sui-rating class="heart note-actions-like" title="Like note" [ngModel]="liked" [maximum]="1" (valueChange)="onLikeClick($event)" ></sui-rating>

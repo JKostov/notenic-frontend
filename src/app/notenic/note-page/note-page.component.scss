@@ -23,6 +23,20 @@
   position: relative;
 }
 
+.note-info-data {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.collaborators-link {
+  cursor: pointer;
+}
+
+.collaborators-link:hover {
+  color: #1678c2;
+}
+
 .note-actions {
   position: absolute;
   display: flex;
@@ -55,6 +69,8 @@
     &-icon {
       display: flex !important;
       align-items: center !important;
+      justify-content: flex-end !important;
+      width: 27px !important;
     }
 
     &-active {

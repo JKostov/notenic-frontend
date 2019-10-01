@@ -3,13 +3,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { first, takeUntil } from 'rxjs/operators';
 import { INoteRouteParams } from '@notenic/note-page/note-route-params.interface';
-import {Note, User, Comment, BookmarkNote} from '@notenic/models';
+import { Note, User, Comment, BookmarkNote } from '@notenic/models';
 import { NoteService } from '@notenic/services/note.service';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { IAuthState } from '@notenic/auth/store/auth.state';
 import { getUser } from '@notenic/auth/store/auth.selectors';
-import {BookmarkNoteRequest} from '@notenic/auth/store/auth.actions';
+import { SuiModalService } from 'ng2-semantic-ui';
+import { BookmarkNoteRequest } from '@notenic/auth/store/auth.actions';
+import { ShowCollaboratorsModal } from '@notenic/note-page/show-collaborators-modal/show-collaborators-modal';
 
 const sortCommentsByDate = (a: Comment, b: Comment) => (new Date(a.createdAt)).getTime() - (new Date(b.createdAt)).getTime();
 
@@ -29,7 +31,7 @@ export class NotePageComponent implements OnInit, OnDestroy {
   liked = 0;
 
   constructor(private route: ActivatedRoute, private noteService: NoteService, private fb: FormBuilder,
-              private store: Store<IAuthState>, private router: Router) { }
+              private store: Store<IAuthState>, private router: Router, private modalService: SuiModalService) { }
 
   ngOnInit() {
     this.markDownFormControl = this.fb.control('');
@@ -95,6 +97,11 @@ export class NotePageComponent implements OnInit, OnDestroy {
   onSaveNoteClick(): void {
     const bookmarkNote: BookmarkNote = { noteId: this.note.id };
     this.store.dispatch(new BookmarkNoteRequest({ bookmarkNote }));
+  }
+
+  onShowCollaboratorsClick(): void {
+    this.modalService
+      .open(new ShowCollaboratorsModal('Collaborators', this.note.id , 'mini'));
   }
 
   private addCommentToTheNote(comment: Comment): void {

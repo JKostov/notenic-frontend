@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { CollaborationService } from '@notenic/services/collaboration.service';
-import { ActivatedRoute } from '@angular/router';
-import {debounceTime, distinctUntilChanged, distinctUntilKeyChanged, first, takeUntil} from 'rxjs/operators';
+import {ActivatedRoute, Router} from '@angular/router';
+import {catchError, debounceTime, distinctUntilChanged, distinctUntilKeyChanged, first, takeUntil} from 'rxjs/operators';
 import {
   CollaborationDocData, CollaborationDocType,
   CollaborationUpdate,
@@ -11,7 +11,7 @@ import {
   UploadImages,
   User
 } from '@notenic/models';
-import { Subject } from 'rxjs';
+import {Observable, of, Subject} from 'rxjs';
 import { Collaboration } from '@notenic/models/collaboration';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { NoteService } from '@notenic/services/note.service';
@@ -37,7 +37,7 @@ export class CollaborationPageComponent implements OnInit, OnDestroy {
   markDownFormControl: FormControl;
   titleFormControl: FormControl;
   tagsFormControl: FormControl;
-  publicFormControl: FormControl;
+  // publicFormControl: FormControl;
   imageFormControl: FormControl;
   contentImagesFormControl: FormControl;
   imgSrc: string = null;
@@ -45,6 +45,8 @@ export class CollaborationPageComponent implements OnInit, OnDestroy {
   img: string = null;
   tags: string[] = [];
   error: string;
+  tagChange = new Subject<void>();
+  imageChange = new Subject<void>();
   destroy$ = new Subject<void>();
 
   doc: CollaborationDocType;
@@ -52,7 +54,7 @@ export class CollaborationPageComponent implements OnInit, OnDestroy {
   sendChanges = new Subject<CollaborationDocData>();
 
   constructor(private route: ActivatedRoute, private collaborationService: CollaborationService, private readonly fb: FormBuilder,
-              private readonly noteService: NoteService, private readonly store: Store<INotenicState | IAuthState>,
+              private readonly noteService: NoteService, private readonly store: Store<INotenicState | IAuthState>, private router: Router,
               private modalService: SuiModalService, private collaborationSocketService: CollaborationSocketService) { }
 
   ngOnInit(): void {
@@ -60,11 +62,15 @@ export class CollaborationPageComponent implements OnInit, OnDestroy {
     this.markDownFormControl = this.fb.control('', Validators.required);
     this.titleFormControl = this.fb.control('', Validators.required);
     this.tagsFormControl = this.fb.control('');
-    this.publicFormControl = this.fb.control(true, Validators.required);
+    // this.publicFormControl = this.fb.control(true, Validators.required);
     this.imageFormControl = this.fb.control('', Validators.required);
     this.contentImagesFormControl = this.fb.control('');
 
     this.markDownFormControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => this.updateMarkdown());
+    this.titleFormControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => this.updateTitle());
+    // this.publicFormControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => this.updatePublic());
+    this.tagChange.pipe(takeUntil(this.destroy$)).subscribe(() => this.updateTags());
+    this.imageChange.pipe(takeUntil(this.destroy$)).subscribe(() => this.updateImage());
 
     this.store.select(getUser).pipe(takeUntil(this.destroy$)).subscribe(val => this.updateUser(val));
     this.route.params.pipe(takeUntil(this.destroy$)).subscribe((params: ICollaborationRoutePrams) => {
@@ -103,6 +109,7 @@ export class CollaborationPageComponent implements OnInit, OnDestroy {
         (model: UploadImages) => {
           this.imgSrc = this.imgBaseUrl + model.imageUrls[0];
           this.img = model.imageUrls[0];
+          this.imageChange.next();
         }
       );
     }
@@ -142,29 +149,36 @@ export class CollaborationPageComponent implements OnInit, OnDestroy {
         this.imageFormControl.setValue('');
         this.imgSrc = null;
         this.img = null;
+        this.imageChange.next();
       }
     });
   }
 
   publishCollaboration(): void {
-    console.log('NOTE IMPLEMENTED');
-    // const createNote: CreateNote = {
-    //   title: this.titleFormControl.value,
-    //   markdown: this.markDownFormControl.value,
-    //   image: this.img,
-    //   public: this.getBool(this.publicFormControl.value),
-    //   tags: this.tags,
-    // };
-    //
-    // this.store.dispatch(new SaveNoteRequest({ createNote }));
+    const collaboration = new Collaboration();
+    collaboration.id = this.collaboration.id;
+    // collaboration.public = this.publicFormControl.value;
+    collaboration.tags = this.tags;
+    collaboration.image = this.img;
+    collaboration.markdown = this.markDownFormControl.value;
+    collaboration.title = this.titleFormControl.value;
+
+    this.collaborationService.publishCollaboration(collaboration).pipe(first(), catchError(res => of(console.log(res))))
+      .subscribe(async (res) => {
+        await this.router.navigate(['/']);
+    });
   }
 
   onSaveClick(): void {
-    const collaborationUpdate: CollaborationUpdate = {
-      id: this.collaboration.id,
-      update: 'zxczxczxccz',
-    };
-    this.collaborationSocketService.sendUpdate(collaborationUpdate);
+    const collaboration = new Collaboration();
+    collaboration.id = this.collaboration.id;
+    // collaboration.public = this.publicFormControl.value;
+    collaboration.tags = this.tags;
+    collaboration.image = this.img;
+    collaboration.markdown = this.markDownFormControl.value;
+    collaboration.title = this.titleFormControl.value;
+
+    this.collaborationService.saveCollaborationState(collaboration).pipe(first()).subscribe();
   }
 
   addTag(): void {
@@ -173,11 +187,13 @@ export class CollaborationPageComponent implements OnInit, OnDestroy {
       return;
     }
     this.tags.push(tag);
+    this.tagChange.next();
     this.tagsFormControl.setValue('');
   }
 
   removeTag(tag: string): void {
     this.tags.splice(this.tags.indexOf(tag), 1);
+    this.tagChange.next();
   }
 
   onInviteCollaboratorsClicked(): void {
@@ -190,7 +206,6 @@ export class CollaborationPageComponent implements OnInit, OnDestroy {
     this.modalService
       .open(new CollaboratorsModal('Choose collaborators', 5, collabs, 'mini'))
       .onApprove((collaborators: User[]) => this.onChosenCollaborators(collaborators))
-      .onDeny(() => console.log('cancel'))
     ;
   }
 
@@ -240,9 +255,11 @@ export class CollaborationPageComponent implements OnInit, OnDestroy {
     this.collaborationSocketService.joinRoom(this.collaboration.id).pipe(first()).subscribe(val => this.updateCollaborators(val));
 
     const options = { emitEvent: false };
-    this.markDownFormControl.patchValue(this.collaboration.markdown, options);
-    this.titleFormControl.patchValue(this.collaboration.title, options);
-    this.publicFormControl.patchValue(this.getBool(this.collaboration.public), options);
+    this.markDownFormControl.setValue(this.collaboration.markdown, options);
+    this.titleFormControl.setValue(this.collaboration.title, options);
+    // if (this.publicFormControl.value !== this.collaboration.public) {
+    //   this.publicFormControl.setValue(this.collaboration.public, options);
+    // }
     if (this.collaboration.image) {
       this.imgSrc = `${this.imgBaseUrl}${this.collaboration.image}`;
       this.img = this.collaboration.image;
@@ -252,6 +269,9 @@ export class CollaborationPageComponent implements OnInit, OnDestroy {
     this.doc = Automerge.from<CollaborationDocData>({
       markdown: this.collaboration.markdown,
       title: this.collaboration.title,
+      public: this.collaboration.public,
+      image: this.collaboration.image,
+      tags: this.collaboration.tags,
     });
     this.changedDoc = Automerge.init<CollaborationDocData>();
     this.changedDoc = Automerge.merge(this.changedDoc, this.doc);
@@ -260,6 +280,34 @@ export class CollaborationPageComponent implements OnInit, OnDestroy {
   private updateMarkdown(): void {
     this.changedDoc = Automerge.change(this.changedDoc, (doc: CollaborationDocData) => {
       doc.markdown = this.markDownFormControl.value;
+    });
+    this.sendChanges.next(this.changedDoc);
+  }
+
+  private updateTitle(): void {
+    this.changedDoc = Automerge.change(this.changedDoc, (doc: CollaborationDocData) => {
+      doc.title = this.titleFormControl.value;
+    });
+    this.sendChanges.next(this.changedDoc);
+  }
+
+  // private updatePublic(): void {
+  //   this.changedDoc = Automerge.change(this.changedDoc, (doc: CollaborationDocData) => {
+  //     doc.public = this.publicFormControl.value;
+  //   });
+  //   this.sendChanges.next(this.changedDoc);
+  // }
+
+  private updateTags(): void {
+    this.changedDoc = Automerge.change(this.changedDoc, (doc: CollaborationDocData) => {
+      doc.tags = this.tags;
+    });
+    this.sendChanges.next(this.changedDoc);
+  }
+
+  private updateImage(): void {
+    this.changedDoc = Automerge.change(this.changedDoc, (doc: CollaborationDocData) => {
+      doc.image = this.img;
     });
     this.sendChanges.next(this.changedDoc);
   }
@@ -296,22 +344,49 @@ export class CollaborationPageComponent implements OnInit, OnDestroy {
     this.doc = Automerge.applyChanges(this.doc, changes);
     this.changedDoc = Automerge.applyChanges(this.changedDoc, changes);
 
-    console.log(this.changedDoc);
-
     const options = { emitEvent: false };
     this.markDownFormControl.setValue(this.changedDoc.markdown, options);
     this.titleFormControl.setValue(this.changedDoc.title, options);
+    // if (this.publicFormControl.value !== this.changedDoc.public) {
+    //   this.publicFormControl.setValue(this.changedDoc.public, options);
+    // }
+    this.tags = [];
+    for (let tagsKey in this.changedDoc.tags) {
+      const tag = this.changedDoc.tags[tagsKey];
+      this.tags.push(tag);
+    }
+    if (this.changedDoc.image) {
+      this.img = this.changedDoc.image;
+      this.imgSrc = `${this.imgBaseUrl}${this.changedDoc.image}`;
+    } else {
+      this.imgSrc = null;
+      this.img = null;
+    }
   }
 
   private applyCollaborationMerge(changesData: any): void {
     const changes = JSON.parse(changesData);
 
-    this.doc = Automerge.init();
-    this.doc = Automerge.applyChanges(this.doc, changes);
-    this.changedDoc = Automerge.merge(this.changedDoc, this.doc);
+    this.doc = Automerge.applyChanges(Automerge.init(), changes);
+    this.changedDoc = Automerge.merge(Automerge.init(), this.doc);
 
     const options = { emitEvent: false };
     this.markDownFormControl.setValue(this.changedDoc.markdown, options);
     this.titleFormControl.setValue(this.changedDoc.title, options);
+    // if (this.publicFormControl.value !== this.changedDoc.public) {
+    //   this.publicFormControl.setValue(this.changedDoc.public, options);
+    // }
+    this.tags = [];
+    for (let tagsKey in this.changedDoc.tags) {
+      const tag = this.changedDoc.tags[tagsKey];
+      this.tags.push(tag);
+    }
+    if (this.changedDoc.image) {
+      this.img = this.changedDoc.image;
+      this.imgSrc = `${this.imgBaseUrl}${this.changedDoc.image}`;
+    } else {
+      this.imgSrc = null;
+      this.img = null;
+    }
   }
 }

@@ -8,7 +8,8 @@ export const environment = {
   secureCookie: false,
   apiUrl: 'http://localhost:3000/api',
   filesUrl: 'http://localhost:3001/api',
-  notificationsUrl: 'http://localhost:3002',
+  notificationsSocketUrl: 'http://localhost:3002',
+  notificationsApiUrl: 'http://localhost:3002/api',
 };
 
 /*

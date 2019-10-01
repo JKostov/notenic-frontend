@@ -35,4 +35,16 @@ export class CollaborationService {
 
     return this.http.get<Collaboration[]>(url);
   }
+
+  public saveCollaborationState(collaboration: Collaboration): Observable<boolean> {
+    const url = `${environment.apiUrl}/collaborations/save-state`;
+
+    return this.http.post<boolean>(url, collaboration);
+  }
+
+  public publishCollaboration(collaboration: Collaboration): Observable<any> {
+    const url = `${environment.apiUrl}/collaborations/publish`;
+
+    return this.http.post<boolean>(url, collaboration);
+  }
 }

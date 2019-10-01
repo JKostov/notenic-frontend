@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'environments/environment';
-import { CreateNote, CreateNoteComment, DeleteImage, Note, Comment, UploadImages, BookmarkNote } from '@notenic/models';
+import {CreateNote, CreateNoteComment, DeleteImage, Note, Comment, UploadImages, BookmarkNote, User} from '@notenic/models';
 
 @Injectable({
   providedIn: 'root'
@@ -68,5 +68,11 @@ export class NoteService {
     const url = `${environment.apiUrl}/notes/bookmarked`;
 
     return this.http.get<Note[]>(url);
+  }
+
+  getCollaborators(id: string): Observable<User[]> {
+    const url = `${environment.apiUrl}/notes/${id}/collaborators/data`;
+
+    return this.http.get<User[]>(url);
   }
 }

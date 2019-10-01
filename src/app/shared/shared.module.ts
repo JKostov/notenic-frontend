@@ -6,6 +6,7 @@ import { SuiModule } from 'ng2-semantic-ui';
 import { ComponentsModule } from '@app/shared/components/components.module';
 import { UserImagePipe } from './pipes/user-image.pipe';
 import { NoteImagePipe } from './pipes/note-image.pipe';
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { NoteImagePipe } from './pipes/note-image.pipe';
     NgxSpinnerModule,
     SuiModule,
     ComponentsModule,
+    PerfectScrollbarModule,
   ],
   exports: [
     CommonModule,
@@ -25,6 +27,7 @@ import { NoteImagePipe } from './pipes/note-image.pipe';
     ComponentsModule,
     UserImagePipe,
     NoteImagePipe,
+    PerfectScrollbarModule,
   ],
   declarations: [UserImagePipe, NoteImagePipe],
 })

@@ -8,6 +8,6 @@ import { environment } from 'environments/environment';
 export class CollaborationSocket extends Socket {
 
   constructor() {
-    super({ url: `${environment.notificationsUrl}/collaboration`, options: { forceNew: true } });
+    super({ url: `${environment.notificationsSocketUrl}/collaboration` });
   }
 }

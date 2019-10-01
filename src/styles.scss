@@ -44,3 +44,11 @@ sui-dimmer > div > div {
   justify-content: center;
   align-items: center;
 }
+
+.ui.menu .ui.dropdown .menu>.item.notifications-dropdown-items-item-active {
+  background: #e8f4ff !important;
+
+  &:hover {
+    background-color: #b8c4cf !important;
+  }
+}
