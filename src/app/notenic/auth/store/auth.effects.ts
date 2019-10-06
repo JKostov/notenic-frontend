@@ -129,7 +129,7 @@ export class AuthEffects {
   updateUserSuccessEffect$ = this.actions$.pipe(
     ofType<authActions.UpdateUserSuccess>(authActions.ActionsEnum.UpdateUserSuccess),
     map((action: authActions.UpdateUserSuccess) => action.payload.user),
-    tap(user => this.authService.updateUserInLocalStorage(user)),
+    tap(user => (this.authService.updateUserInLocalStorage(user), this.router.navigate(['/profile', user.username]))),
   );
 
   @Effect()

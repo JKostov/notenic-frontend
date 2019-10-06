@@ -88,17 +88,17 @@
 
           <button class="ui mini fluid button icon labeled" (click)="onInviteCollaboratorsClicked()"><i class="icon handshake"></i>Invite collaborators</button>
 
-          <div class="ui inverted mini fluid input">
-            <div class="ui tags-container">
-              <div *ngFor="let tag of tags" class="tags-container-tag">
-                {{ tag }}
-                <i (click)="removeTag(tag)" class="icon close alternate tags-container-tag-icon"></i>
-              </div>
-              <div *ngIf="tags.length === 0" class="tags-container-empty">
-                No collaborators
-              </div>
-            </div>
-          </div>
+          <!--<div class="ui inverted mini fluid input">-->
+            <!--<div class="ui tags-container">-->
+              <!--<div *ngFor="let tag of tags" class="tags-container-tag">-->
+                <!--{{ tag }}-->
+                <!--<i (click)="removeTag(tag)" class="icon close alternate tags-container-tag-icon"></i>-->
+              <!--</div>-->
+              <!--<div *ngIf="tags.length === 0" class="tags-container-empty">-->
+                <!--No collaborators-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
 
           <div class="ui inverted divider"></div>
 

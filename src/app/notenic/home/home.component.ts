@@ -5,6 +5,7 @@ import { Note } from '@notenic/models';
 import { Subject } from 'rxjs';
 import { getNotes } from '@notenic/store/notenic.selectors';
 import { takeUntil } from 'rxjs/operators';
+import {LoadNotesRequest} from '@notenic/store/notenic.actions';
 
 @Component({
   selector: 'note-home',
@@ -19,6 +20,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.store.dispatch(new LoadNotesRequest());
     this.store.pipe(select(getNotes), takeUntil(this.destroy$)).subscribe(val => this.notes = val);
   }
 

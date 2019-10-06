@@ -66,10 +66,14 @@ export class NotePageComponent implements OnInit, OnDestroy {
 
     if (this.liked === 0) {
       this.liked = 1;
-      this.noteService.likeNote(this.note.id, true).pipe(first()).subscribe(res => console.log(res));
+      this.noteService.likeNote(this.note.id, true).pipe(first()).subscribe(res => {
+        this.note.likes.push(this.user.id);
+      });
     } else {
       this.liked = 0;
-      this.noteService.likeNote(this.note.id, false).pipe(first()).subscribe(res => console.log(res));
+      this.noteService.likeNote(this.note.id, false).pipe(first()).subscribe(res => {
+        this.note.likes.splice(this.note.likes.indexOf(this.user.id), 1);
+      });
     }
   }
 

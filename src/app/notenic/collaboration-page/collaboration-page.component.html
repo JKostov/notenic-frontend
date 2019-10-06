@@ -106,7 +106,7 @@
 
           <div class="ui inverted divider"></div>
 
-          <button (click)="publishCollaboration()" class="ui small primary button">
+          <button *ngIf="user?.id === collaboration?.user.id" (click)="publishCollaboration()" class="ui small primary button">
             Publish
           </button>
         </div>
@@ -118,7 +118,7 @@
           <div class="markdown-editor__container-header-item">Markdown</div>
           <div class="markdown-editor__container-header-item">Preview</div>
           <div>
-            <button *ngIf="user?.id === collaboration?.user.id" name="publish" (click)="onSaveClick()" class="ui icon button markdown-editor__container-header-button-save">
+            <button name="save-state" (click)="onSaveClick()" class="ui icon button markdown-editor__container-header-button-save">
               <i class="icon save"></i>
             </button>
             <button name="publish" (click)="sidebar.toggle()" class="ui icon button markdown-editor__container-header-button">
