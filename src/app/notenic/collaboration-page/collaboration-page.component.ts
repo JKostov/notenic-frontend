@@ -1,17 +1,16 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { CollaborationService } from '@notenic/services/collaboration.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {catchError, debounceTime, distinctUntilChanged, distinctUntilKeyChanged, first, takeUntil} from 'rxjs/operators';
+import { ActivatedRoute, Router } from '@angular/router';
+import { catchError, distinctUntilChanged, first, takeUntil } from 'rxjs/operators';
 import {
   CollaborationDocData, CollaborationDocType,
-  CollaborationUpdate,
   DeleteImage,
   ICollaborationRoutePrams,
   UpdateCollaborators,
   UploadImages,
   User
 } from '@notenic/models';
-import {Observable, of, Subject} from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { Collaboration } from '@notenic/models/collaboration';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { NoteService } from '@notenic/services/note.service';
@@ -86,7 +85,10 @@ export class CollaborationPageComponent implements OnInit, OnDestroy {
     this.collaborationSocketService.getUpdate().pipe(takeUntil(this.destroy$)).subscribe(val => this.applyCollaborationChanges(val));
     this.collaborationSocketService.getMerge().pipe(takeUntil(this.destroy$)).subscribe(val => this.applyCollaborationMerge(val));
 
-    this.sendChanges.pipe(debounceTime(200), distinctUntilChanged()).subscribe(() => this.sendCollaborationChanges());
+    this.sendChanges.pipe(
+      // debounceTime(200),
+      distinctUntilChanged()
+    ).subscribe(() => this.sendCollaborationChanges());
   }
 
   ngOnDestroy(): void {

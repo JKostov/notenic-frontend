@@ -111,6 +111,7 @@ export class NotePageComponent implements OnInit, OnDestroy {
   private addCommentToTheNote(comment: Comment): void {
     this.note.comments.push(comment);
     this.note.comments.sort(sortCommentsByDate);
+    this.markDownFormControl.setValue('');
   }
 
    private getTagStyle(): any {

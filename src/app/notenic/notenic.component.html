@@ -4,6 +4,10 @@
       <img class="logo" src="assets/logo.png">
     </div>
     <a routerLink="/" class="item font-bold">Notenic</a>
+    <div class="search-wrap">
+      <sui-search placeholder="Search users" [optionsLookup]="getUsers" optionsField="username" [resultTemplate]="template" (resultSelected)="onSelectedUser($event.username)" class="search-wrap-search"></sui-search>
+    </div>
+    <div class="search-wrap"></div>
     <div *ngIf="!user" class="right menu">
       <a routerLink="/login" class="item">Login</a>
       <a routerLink="/register" class="item">Register</a>
@@ -19,3 +23,16 @@
 <div class="content h-full">
   <router-outlet></router-outlet>
 </div>
+
+<ng-template let-result let-query="query" #template>
+  <div class="ui feed search-result-data">
+    <div class="event">
+      <div class="label">
+        <img [routerLink]="['/profile', result.username]" [src]="result | userImage">
+      </div>
+      <div class="content">
+        <a [routerLink]="['/profile', result.username]">{{ result.username }}</a>
+      </div>
+    </div>
+  </div>
+</ng-template>

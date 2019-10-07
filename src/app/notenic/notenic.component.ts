@@ -8,6 +8,8 @@ import { Subject } from 'rxjs';
 import { User } from '@notenic/models';
 import { AuthService } from '@notenic/services/auth/auth.service';
 import { LoadNotesRequest } from '@notenic/store/notenic.actions';
+import { UserService } from '@notenic/services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'note-notenic',
@@ -18,7 +20,10 @@ export class NotenicComponent implements OnInit, OnDestroy {
   user: User;
   destroy$ = new Subject<void>();
 
-  constructor(private authService: AuthService, private readonly store: Store<IAuthState>) { }
+  constructor(private authService: AuthService, private store: Store<IAuthState>, private userService: UserService,
+              private router: Router) {
+    this.getUsers = this.getUsers.bind(this);
+  }
 
   ngOnInit() {
     const user = this.authService.getUserFromLocalStorage();
@@ -40,4 +45,12 @@ export class NotenicComponent implements OnInit, OnDestroy {
     this.store.dispatch(new Logout());
   }
 
+  getUsers(query: string): Promise<User[]> {
+    return this.userService.getUsersLike(query);
+  }
+
+  onSelectedUser(username: string): void {
+
+    this.router.navigate(['/profile', username]);
+  }
 }

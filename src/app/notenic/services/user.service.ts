@@ -40,4 +40,10 @@ export class UserService {
 
     return this.http.get<User>(url);
   }
+
+  getUsersLike(query: string): Promise<User[]> {
+    const url = `${environment.apiUrl}/users/public/${query}`;
+
+    return this.http.get<User[]>(url).toPromise();
+  }
 }
